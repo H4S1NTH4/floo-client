@@ -1,4 +1,4 @@
-import { Restaurant, MenuItem, Order } from '@/types';
+import {Restaurant, MenuItem, Order, OrderStatus} from '@/types';
 
 // Simulate API delay
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -259,9 +259,9 @@ class RestaurantService {
   }
 
   async updateOrderStatus(
-    restaurantId: string, 
-    orderId: string, 
-    status: 'accepted' | 'preparing' | 'ready' | 'cancelled'
+      restaurantId: string,
+      orderId: string,
+      status: OrderStatus
   ): Promise<Order> {
     await delay(500);
     
@@ -269,7 +269,7 @@ class RestaurantService {
     if (orderIndex === -1) {
       throw new Error('Order not found');
     }
-    
+
     const order = orders[orderIndex];
     if (order.restaurantId !== restaurantId) {
       throw new Error('Order does not belong to this restaurant');
