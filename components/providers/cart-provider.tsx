@@ -52,6 +52,28 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         const parsedCart = JSON.parse(savedCart);
         setItems(parsedCart.items || []);
         setRestaurantId(parsedCart.restaurantId || null);
+      } else {
+        // Add mock items to the cart if no saved cart exists
+        const mockItems = [
+          {
+            id: 'mock1',
+            restaurantId: 'rest1',
+            name: 'Mock Burger',
+            price: 9.99,
+            quantity: 1,
+            image: 'https://via.placeholder.com/150',
+          },
+          {
+            id: 'mock2',
+            restaurantId: 'rest1',
+            name: 'Mock Fries',
+            price: 4.99,
+            quantity: 2,
+            image: 'https://via.placeholder.com/150',
+          },
+        ];
+        setItems(mockItems);
+        setRestaurantId('rest1');
       }
     } catch (error) {
       console.error('Failed to load cart from localStorage:', error);
