@@ -36,9 +36,9 @@ export function Footer() {
           <div>
             <h3 className="font-semibold text-lg mb-4">For Partners</h3>
             <ul className="space-y-2">
-              <FooterLink href="/restaurant/signup">Restaurant Sign-up</FooterLink>
+              <FooterLink href="/auth/restaurant/signup">Restaurant Sign-up</FooterLink>
               <FooterLink href="/driver/signup">Become a Driver</FooterLink>
-              <FooterLink href="/restaurant/dashboard">Restaurant Dashboard</FooterLink>
+              <FooterLink href="/auth/restaurant/dashboard">Restaurant Dashboard</FooterLink>
               <FooterLink href="/driver/earnings">Driver Earnings</FooterLink>
             </ul>
           </div>
