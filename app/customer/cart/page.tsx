@@ -99,9 +99,7 @@ export default function CartPage() {
   };
 
   // Calculate total with delivery fee
-  const total = subtotal + deliveryFee;
-
-  const handleCheckout = async () => {
+  const total = subtotal + deliveryFee;  const handleCheckout = async () => {
     if (!deliveryAddress) {
       toast({
         title: 'Address required',
@@ -110,18 +108,62 @@ export default function CartPage() {
       });
       return;
     }
+
+    if (!items.length) {
+      toast({
+        title: 'Empty Cart',
+        description: 'Please add items to your cart before checking out',
+        variant: 'destructive',
+      });
+      return;
+    }
+    
+    if (!restaurantId) {
+      toast({
+        title: 'Restaurant Error',
+        description: 'Please select items from a restaurant',
+        variant: 'destructive',
+      });
+      return;
+    }
   
     const cartItem = items[0]; // Take the first item for now
-  
+    // Build a proper payment payload for all cart items
     const paymentPayload = {
-      name: cartItem.name,
-      amount: cartItem.price,
-      quantity: cartItem.quantity,
-      currency: 'USD', // or 'USD' if you are using USD
+      name: `Order from ${restaurantId}`,
+      amount: total, // Use total amount including delivery fee
+      quantity: 1,
+      currency: 'USD',
+      description: `${items.length} items from restaurant`
     };
-  
+    
     try {
       setIsLoading(true);
+      
+      // Get restaurant details for storing with the order
+      let restaurantDetails = null;
+      if (restaurantId) {
+        try {
+          restaurantDetails = await customerService.getRestaurantById(restaurantId);
+        } catch (error) {
+          console.error('Failed to fetch restaurant details:', error);
+        }
+      }
+        // Save the cart and delivery details to localStorage
+      const checkoutData = {
+        items,
+        restaurantId,
+        restaurantName: restaurantDetails?.name || 'Restaurant',
+        restaurantAddress: restaurantDetails?.address || '',
+        deliveryAddress,
+        deliveryFee,
+        subtotal,
+        total,
+        customerId: '1', // For now, hardcode the customer ID
+        timestamp: Date.now()
+      };
+      
+      localStorage.setItem('pendingCheckout', JSON.stringify(checkoutData));
   
       const response = await fetch('http://localhost:8081/api/v1/payment/strip/checkout', {
         method: 'POST',
@@ -139,6 +181,12 @@ export default function CartPage() {
       console.log('Payment API Response:', paymentResult);
   
       if (paymentResult.status === 'SUCCESS' && paymentResult.sessionUrl) {
+        // Store paymentId along with checkout data for future reference
+        const updatedCheckoutData = {
+          ...checkoutData,
+          paymentId: paymentResult.id || 'unknown'
+        };
+        localStorage.setItem('pendingCheckout', JSON.stringify(updatedCheckoutData));
         window.location.href = paymentResult.sessionUrl;
       } else {
         throw new Error(paymentResult.message || 'Payment session not created');
