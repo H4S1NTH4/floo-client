@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { customerService } from '@/services/customer-service';
-import { Order } from '@/types';
+import { fetchOrdersByCustomerId } from '@/lib/api/orderService';
+import { Order } from '@/types/order';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -12,32 +12,55 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 import { formatDistanceToNow } from 'date-fns';
 import { ExternalLink, ClipboardCheck, Clock } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 export default function OrdersPage() {
   const [currentOrders, setCurrentOrders] = useState<Order[]>([]);
   const [pastOrders, setPastOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchOrders = async () => {
       setLoading(true);
       try {
-        const [current, past] = await Promise.all([
-          customerService.getCurrentOrders('1'), // Mock customer ID
-          customerService.getPastOrders('1') // Mock customer ID
-        ]);
-        
-        setCurrentOrders(current);
-        setPastOrders(past);
+        // Get all orders for customer with ID = 1
+        const orders = await fetchOrdersByCustomerId('1');
+
+        if (Array.isArray(orders)) {
+          // Filter out CANCELLED orders from both lists
+          const filteredOrders = orders.filter(order => order.orderStatus !== 'CANCELLED');
+          
+          // Current orders are all orders that are not COMPLETED or CANCELLED
+          const current = filteredOrders.filter(order => order.orderStatus !== 'COMPLETED');
+          
+          // Past orders only include COMPLETED orders
+          const past = filteredOrders.filter(order => order.orderStatus === 'COMPLETED');
+          
+          setCurrentOrders(current);
+          setPastOrders(past);
+        } else {
+          console.error('Unexpected response format from API');
+          toast({
+            title: 'Error',
+            description: 'Failed to fetch your orders. Please try again.',
+            variant: 'destructive'
+          });
+        }
       } catch (error) {
         console.error('Failed to fetch orders:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to fetch your orders. Please try again.',
+          variant: 'destructive'
+        });
       } finally {
         setLoading(false);
       }
     };
 
     fetchOrders();
-  }, []);
+  }, [toast]);
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -55,11 +78,10 @@ export default function OrdersPage() {
               {Array(2).fill(0).map((_, i) => (
                 <OrderCardSkeleton key={i} />
               ))}
-            </div>
-          ) : currentOrders.length > 0 ? (
+            </div>          ) : currentOrders.length > 0 ? (
             <div className="space-y-4">
               {currentOrders.map((order) => (
-                <OrderCard key={order.id} order={order} isActive={true} />
+                <OrderCard key={order._id || order.orderNumber} order={order} isActive={true} />
               ))}
             </div>
           ) : (
@@ -80,11 +102,10 @@ export default function OrdersPage() {
               {Array(3).fill(0).map((_, i) => (
                 <OrderCardSkeleton key={i} />
               ))}
-            </div>
-          ) : pastOrders.length > 0 ? (
+            </div>          ) : pastOrders.length > 0 ? (
             <div className="space-y-4">
               {pastOrders.map((order) => (
-                <OrderCard key={order.id} order={order} isActive={false} />
+                <OrderCard key={order._id || order.orderNumber} order={order} isActive={false} />
               ))}
             </div>
           ) : (
@@ -105,33 +126,37 @@ export default function OrdersPage() {
 
 function OrderCard({ order, isActive }: { order: Order; isActive: boolean }) {
   // Format the order date
-  const orderDate = formatDistanceToNow(new Date(order.createdAt), { addSuffix: true });
+  const orderDate = formatDistanceToNow(new Date(order.orderTime), { addSuffix: true });
   
   // Get status badge color
   const getStatusColor = () => {
-    switch (order.status) {
-      case 'placed': return 'bg-blue-100 text-blue-800';
-      case 'accepted': return 'bg-purple-100 text-purple-800';
-      case 'preparing': return 'bg-yellow-100 text-yellow-800';
-      case 'ready': return 'bg-orange-100 text-orange-800';
-      case 'pickedUp': return 'bg-indigo-100 text-indigo-800';
-      case 'delivered': return 'bg-green-100 text-green-800';
-      case 'cancelled': return 'bg-red-100 text-red-800';
+    switch (order.orderStatus) {
+      case 'PENDING': return 'bg-blue-100 text-blue-800';
+      case 'ACCEPTED': return 'bg-purple-100 text-purple-800';
+      case 'PREPARING': return 'bg-yellow-100 text-yellow-800';
+      case 'READY': return 'bg-orange-100 text-orange-800';
+      case 'PICKED_UP': return 'bg-indigo-100 text-indigo-800';
+      case 'DELIVERING': return 'bg-indigo-100 text-indigo-800';
+      case 'DELIVERED': return 'bg-green-100 text-green-800';
+      case 'COMPLETED': return 'bg-green-100 text-green-800';
+      case 'CANCELLED': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
 
   // Format status display text
   const getStatusText = () => {
-    switch (order.status) {
-      case 'placed': return 'Order Placed';
-      case 'accepted': return 'Accepted';
-      case 'preparing': return 'Preparing';
-      case 'ready': return 'Ready for Pickup';
-      case 'pickedUp': return 'Out for Delivery';
-      case 'delivered': return 'Delivered';
-      case 'cancelled': return 'Cancelled';
-      default: return order.status;
+    switch (order.orderStatus) {
+      case 'PENDING': return 'Order Placed';
+      case 'ACCEPTED': return 'Accepted';
+      case 'PREPARING': return 'Preparing';
+      case 'READY': return 'Ready for Pickup';
+      case 'PICKED_UP': return 'Out for Pickup';
+      case 'DELIVERING': return 'Out for Delivery';
+      case 'DELIVERED': return 'Delivered';
+      case 'COMPLETED': return 'Completed';
+      case 'CANCELLED': return 'Cancelled';
+      default: return order.orderStatus;
     }
   };
 
@@ -144,21 +169,20 @@ function OrderCard({ order, isActive }: { order: Order; isActive: boolean }) {
             <Badge variant="outline" className={getStatusColor()}>
               {getStatusText()}
             </Badge>
-          </div>
-          <div className="flex justify-between text-sm text-gray-500">
-            <span>Order #{order.id.slice(0, 8)}</span>
+          </div>          <div className="flex justify-between text-sm text-gray-500">
+            <span>Order #{order.orderNumber}</span>
             <span>{orderDate}</span>
           </div>
         </div>
         
         <div className="p-4">
           <div className="flex flex-wrap gap-2 mb-4">
-            {order.items.map((item, index) => (
+            {order.orderItems?.map((item, index) => (
               <div key={index} className="flex items-center gap-2">
-                {item.image && (
+                {(item.imageUrl || item.image) && (
                   <div className="relative h-8 w-8 rounded-md overflow-hidden">
                     <Image
-                      src={item.image}
+                      src={item.imageUrl || item.image || ''}
                       alt={item.name}
                       fill
                       style={{ objectFit: 'cover' }}
@@ -174,11 +198,13 @@ function OrderCard({ order, isActive }: { order: Order; isActive: boolean }) {
           
           <div className="flex items-center justify-between">
             <div>
-              <span className="font-medium">${order.total.toFixed(2)}</span>
-              <span className="text-sm text-gray-500 ml-2">{order.items.reduce((sum, item) => sum + item.quantity, 0)} items</span>
+              <span className="font-medium">${order.totalAmount.toFixed(2)}</span>
+              <span className="text-sm text-gray-500 ml-2">
+                {order.orderItems?.reduce((sum, item) => sum + item.quantity, 0) || 0} items
+              </span>
             </div>
             
-            <Link href={`/customer/orders/${order.id}`}>
+            <Link href={`/customer/orders/${order._id || order.orderNumber}`}>
               <Button variant="outline" size="sm" className="flex items-center gap-1">
                 {isActive ? 'Track Order' : 'View Details'}
                 <ExternalLink className="h-3 w-3" />

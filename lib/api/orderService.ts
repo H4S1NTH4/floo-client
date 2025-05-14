@@ -82,3 +82,22 @@ export const createOrder = async (orderData: CreateOrderRequest) => {
     throw error;
   }
 };
+
+export const fetchOrdersByCustomerId = async (customerId: string) => {
+  try {
+    const apiUrl = extractBaseUrl();
+    const res = await fetch(`${apiUrl}/customer/${customerId}`, { 
+      cache: 'no-store',
+      headers: { 'Content-Type': 'application/json' } 
+    });
+    
+    if (!res.ok) {
+      throw new Error(`Failed to fetch customer orders: ${res.status}`);
+    }
+    
+    return res.json();
+  } catch (error) {
+    console.error(`Error fetching orders for customer ${customerId}:`, error);
+    throw error;
+  }
+};
