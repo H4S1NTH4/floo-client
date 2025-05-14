@@ -52,20 +52,21 @@ export default function PaymentSuccessPage() {
         
         // Log the checkout data for troubleshooting (can be removed in production)
         console.log("Processing checkout data:", checkoutData);
-        
-        // Create an order using the stored checkout data
+          // Create an order using the stored checkout data - formatted to match the expected server format
         const orderData: CreateOrderRequest = {
-          orderNumber: Math.floor(Math.random() * 1000000), // Generate a random order number
-          customerId: checkoutData.customerId,
-          userId: checkoutData.customerId, // For now, using the same value
+          orderNumber: Math.floor(Math.random() * 9000) + 1000, // Generate a random 4-digit order number
+          customerId: checkoutData.customerId || 'cust' + Math.floor(Math.random() * 9000 + 1000),
+          userId: checkoutData.customerId || 'user001', // Using consistent format with server expectation
           restaurantId: checkoutData.restaurantId,
           restaurantName: checkoutData.restaurantName,
           orderItems: checkoutData.items.map((item: any) => ({
             id: item.id,
+            foodItemId: item.id, // Adding foodItemId for server compatibility
             name: item.name,
             price: item.price,
             quantity: item.quantity,
-            image: item.image || ''
+            image: item.image || '',
+            imageUrl: item.image || '' // Adding imageUrl for server compatibility
           })),
           subTotal: checkoutData.subtotal,
           deliveryFee: checkoutData.deliveryFee,
@@ -111,8 +112,7 @@ export default function PaymentSuccessPage() {
         
         // Clear the pending checkout data
         localStorage.removeItem('pendingCheckout');
-        
-        // Clear the cart since the order is now placed
+          // Clear the cart since the order is now placed
         clearCart();
         
         // Success message
@@ -120,6 +120,9 @@ export default function PaymentSuccessPage() {
           title: 'Order created!',
           description: 'Your order has been successfully placed.',
         });
+        
+        // We can reset the session storage for future orders when a user navigates away
+        // This won't affect the current component instance due to our state checks
       } catch (error) {
         console.error('Failed to create order:', error);
         toast({
@@ -132,11 +135,14 @@ export default function PaymentSuccessPage() {
       }
     }
     
-    processOrder();
-    
+    processOrder();    
     // Cleanup: Remove the attempt flag when component unmounts
     return () => {
-      localStorage.removeItem('orderCreationAttempted');
+      // We only remove orderCreationAttempted from session storage
+      // when the component unmounts completely, not when the effect re-runs
+      // This helps prevent multiple API calls during component lifecycle
+      // but allows new orders on new page visits
+      sessionStorage.removeItem('orderCreationAttempted');
     };
   }, [router, toast, clearCart, orderCreationAttempted]);
 

@@ -1,9 +1,11 @@
 export type OrderItem = {
   id: string;
+  foodItemId?: string; // Added for server compatibility
   name: string;
   price: number;
   quantity: number;
-  image: string;
+  image?: string;
+  imageUrl?: string; // Added for server compatibility
 };
 
 export type Order = {
