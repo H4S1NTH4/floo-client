@@ -8,6 +8,20 @@ export interface Restaurant {
   address: string;
   categories: string[];
   isOpen: boolean;
+  logo?: string;
+  coverImage?: string;
+  phone?: string;
+  email?: string;
+  description?: string;
+  openingHours?: {
+    monday: string;
+    tuesday: string;
+    wednesday: string;
+    thursday: string;
+    friday: string;
+    saturday: string;
+    sunday: string;
+  };
 }
 
 export interface MenuItem {
