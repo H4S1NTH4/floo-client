@@ -202,9 +202,7 @@ function OrderCard({ order, isActive }: { order: Order; isActive: boolean }) {
               <span className="text-sm text-gray-500 ml-2">
                 {order.orderItems?.reduce((sum, item) => sum + item.quantity, 0) || 0} items
               </span>
-            </div>
-            
-            <Link href={`/customer/orders/${order._id || order.orderNumber}`}>
+            </div>            <Link href={`/customer/orders/${order.orderNumber}`}>
               <Button variant="outline" size="sm" className="flex items-center gap-1">
                 {isActive ? 'Track Order' : 'View Details'}
                 <ExternalLink className="h-3 w-3" />
