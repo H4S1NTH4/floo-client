@@ -4,9 +4,29 @@ import dynamic from 'next/dynamic';
 import { useState } from 'react';
 
 const MapComponent = dynamic(() => import('@/components/driver/MapComponent'), { ssr: false });
+const AcceptOrderCard = dynamic(() => import('@/components/driver/AcceptOrderCard'), { ssr: false });
+
 
 export default function Home() {
   const [isOnline, setIsOnline] = useState(false);
+  const [showOrderCard, setShowOrderCard] = useState(false);
+
+  const handleOnlineClick = () => {
+    setIsOnline(prev => !prev);
+    // Show order card when going online, hide when going offline
+    setShowOrderCard(prev => !isOnline);
+  };
+  const handleAccept = () => {
+    // Implement accept logic here
+    console.log('Order accepted');
+    setShowOrderCard(false); // Hide the order card after accepting
+  };
+
+  const handleDecline = () => {
+    // Implement decline logic here
+    console.log('Order declined');
+    setShowOrderCard(false); // Hide the order card after declining
+  };
 
   return (
     <div>
@@ -20,6 +40,7 @@ export default function Home() {
 
       <main className="flex-1 p-4 flex flex-col items-center">
       <MapComponent />
+      {/* <AcceptOrderCard /> */}
 
         {/* Online/Offline Button */}
         <button
@@ -28,10 +49,18 @@ export default function Home() {
               ? 'bg-green-500 text-white'
               : 'bg-gray-400 text-gray-800'
           }`}
-          onClick={() => setIsOnline((prev) => !prev)}
+          onClick={handleOnlineClick}
         >
           {isOnline ? 'ONLINE' : 'OFFLINE'}
         </button>
+        {/* Popup Order Card */}
+        {showOrderCard && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+            <div className="w-full max-w-md">
+              <AcceptOrderCard onAccept={handleAccept} onDecline={handleDecline} />
+            </div>
+          </div>
+        )}
       </main>
 
       <footer className="fixed bottom-0 w-full max-w-[430px] bg-white border-t shadow-inner flex justify-around items-center p-4">
