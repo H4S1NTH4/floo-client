@@ -7,19 +7,21 @@ import { ShoppingBag, Search, ClipboardList, Heart, User, ShoppingCart } from 'l
 
 // Hardcoded destination (e.g., Galle Face Green, Colombo)
 const DESTINATION = {
-  lat: 6.9084,
-  lng: 79.9416,
+  lat: 6.9220,
+  lng: 79.9180,
 };
 
 //Hardcoded starting
 const startLocationX = {
-  lat: 6.917, 
-  lng: 79.973,
+    lat: 6.9084,
+    lng: 79.9416,
 };
 
-const MapComponent = dynamic(() => import('@/components/driver/DriverNavigationMap'), { ssr: false });
+const MapComponent = dynamic(() => import('@/components/driver/UserNavigationMap'), { ssr: false });
 
 export default function NavigatePage() {
+        //const router = useRouter();
+    
   const [selfLocation, setSelfLocation] = useState<{ lat: number; lng: number } | null>(null);
 
   useEffect(() => {
