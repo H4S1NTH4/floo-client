@@ -12,7 +12,7 @@ export default function SimpleMap() {
     <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''}>
       <div style={{ width: '100%', height: '500px' }}>
         <Map
-          center={defaultCenter}
+          //center={defaultCenter}
           //zoom={30}
           style={{ width: '100%', height: '100%' }}
           disableDefaultUI={false} // Enables default UI controls
