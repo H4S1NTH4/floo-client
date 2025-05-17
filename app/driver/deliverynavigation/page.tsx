@@ -16,6 +16,7 @@ const startLocationX = {
     lat: 6.9084,
     lng: 79.9416,
 };
+//const orderId : String= "682850c83c77aa2c1ab93ba2";
 
 const MapComponent = dynamic(() => import('@/components/driver/UserNavigationMap'), { ssr: false });
 
