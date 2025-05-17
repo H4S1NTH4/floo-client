@@ -15,6 +15,7 @@ export default function Home() {
 
   const handleOnlineClick = async () =>  {
     setIsOnline(!isOnline);
+    setShowOrderCard(true);
 
     const driverId = "6826199186c67747e579e3db"; // Replace with actual driver ID
     const newStatus = !isOnline ? DriverStatus.ONLINE : DriverStatus.OFFLINE;
@@ -29,10 +30,21 @@ export default function Home() {
       console.error("Error updating driver status:", error);
     }
   };
-  const handleAccept = () => {
-    // Implement accept logic here
-    console.log('Order accepted');
-    setShowOrderCard(false); // Hide the order card after accepting
+  const handleAccept = async () => {
+    const driverId = "6826199186c67747e579e3db"; // Replace with actual driver ID
+    
+    try {
+      const updatedDriver = await updateDriverStatus(driverId, DriverStatus.DELIVERY);
+      if (updatedDriver) {
+        console.log('Order accepted and status updated to DELIVERY');
+        setShowOrderCard(false);
+        setIsOnline(false); // Optionally update the online status
+      } else {
+        console.error("Failed to update driver status to DELIVERY");
+      }
+    } catch (error) {
+      console.error("Error updating driver status:", error);
+    }
   };
 
   const handleDecline = () => {

@@ -13,13 +13,13 @@ export default function SimpleMap() {
       <div style={{ width: '100%', height: '500px' }}>
         <Map
           center={defaultCenter}
-          zoom={12}
+          //zoom={30}
           style={{ width: '100%', height: '100%' }}
           disableDefaultUI={false} // Enables default UI controls
           zoomControl={true}       // Specifically enables zoom control
           gestureHandling="greedy"
           mapTypeId="roadmap"
-
+          
         />
       </div>
     </APIProvider>
