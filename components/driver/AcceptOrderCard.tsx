@@ -3,9 +3,11 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MapPin, Clock, DollarSign } from 'lucide-react';
+import { Order } from '@/types/order';
 
 interface AcceptOrderCardProps {
   order: any;
+
   onAccept: () => void;
   onDecline: () => void;
 }
