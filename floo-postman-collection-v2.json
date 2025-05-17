@@ -1,0 +1,1662 @@
+{
+	"info": {
+		"_postman_id": "b19e591b-a2f4-4ab4-94f5-693da49713f3",
+		"name": "Floo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34024128",
+		"_collection_link": "https://y3s2-project-group.postman.co/workspace/Y3S2-Project-Group-Workspace~94617d38-493c-4232-aa38-e57395fc7fd5/collection/34024128-b19e591b-a2f4-4ab4-94f5-693da49713f3?action=share&source=collection_link&creator=34024128"
+	},
+	"item": [
+		{
+			"name": "Delivery Service",
+			"item": [
+				{
+					"name": "delivery test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dep_deli}}/api/v1/delivery/test",
+							"host": [
+								"{{dep_deli}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"delivery",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delivery localhost test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dep_deli}}/api/v1/delivery/test",
+							"host": [
+								"{{dep_deli}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"delivery",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create driver",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Jane Smith\",\n  \"driverLocation\": {\n    \"latitude\": 6.9271,\n    \"longitude\": 79.8612\n  },\n  \"status\": \"ONLINE\",\n  \"available\": true\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dep_deli}}/api/v1/delivery/drivers",
+							"host": [
+								"{{dep_deli}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"delivery",
+								"drivers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get driver by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dep_deli}}/api/v1/delivery/drivers/{{driver_id}}",
+							"host": [
+								"{{dep_deli}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"delivery",
+								"drivers",
+								"{{driver_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get driver location",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dep_deli}}/api/v1/delivery/driver/{{driver_id}}/location",
+							"host": [
+								"{{dep_deli}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"delivery",
+								"driver",
+								"{{driver_id}}",
+								"location"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all drivers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dep_deli}}/api/v1/delivery/drivers",
+							"host": [
+								"{{dep_deli}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"delivery",
+								"drivers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update status",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"ONLINE\" // Or \"ONLINE\", \"DELIVERY\", \"UNAVAILABLE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dep_deli}}/api/v1/delivery/drivers/{{driver_id}}/status",
+							"host": [
+								"{{dep_deli}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"delivery",
+								"drivers",
+								"{{driver_id}}",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update Location",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"ONLINE\" // Or \"ONLINE\", \"DELIVERY\", \"UNAVAILABLE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dep_deli}}/api/v1/delivery/drivers/{{driver_id}}/status",
+							"host": [
+								"{{dep_deli}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"delivery",
+								"drivers",
+								"{{driver_id}}",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "driver info",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/delivery/drivers/YOUR_DRIVER_ID",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"delivery",
+								"drivers",
+								"YOUR_DRIVER_ID"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign driver to order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customerId\": 101,\n  \"customerName\": \"John Doe\",\n  \"deliveryLocation\": {\n    \"latitude\": 6.927079,\n    \"longitude\": 79.861244,\n    \"addressLine1\": \"123 Galle Road\",\n    \"city\": \"Colombo\",\n    \"postalCode\": \"00300\"\n  },\n  \"pickupLocation\": {\n    \"latitude\": 6.864687,\n    \"longitude\": 79.899704,\n    \"name\": \"Pizza Place - Malabe\"\n  },\n  \"status\": \"PENDING_ASSIGNMENT\",\n  \"totalAmount\": 45.75\n  }\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_deli}}/api/v1/delivery/assign",
+							"host": [
+								"{{local_deli}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"delivery",
+								"assign"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/delivery/drivers/YOUR_DRIVER_ID",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"delivery",
+								"drivers",
+								"YOUR_DRIVER_ID"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order Service",
+			"item": [
+				{
+					"name": "GET ALL ORDERS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{order_service_url}}/api/v1/order/allOrders",
+							"host": [
+								"{{order_service_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"allOrders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST ORDER SERVICE",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{order_service_url}}/api/v1/order/test",
+							"host": [
+								"{{order_service_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE NEW ORDER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"orderNumber\": 1022,\r\n  \"customerId\": \"cust12176\",\r\n  \"restaurantId\": \"rest456\",\r\n  \"restaurantName\": \"foodcenter\",\r\n  \"orderItems\": [\r\n    {\r\n        \"foodItemId\": \"201\",\r\n        \"name\": \"Margherita Pizza\",\r\n        \"price\": 12.99,\r\n        \"quantity\": 1,\r\n        \"imageUrl\": \"https://images.pexels.com/photos/803290/pexels-photo-803290.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2\"\r\n      },\r\n      {\r\n        \"foodItemId\": \"203\",\r\n        \"name\": \"Garlic Breadsticks\",\r\n        \"price\": 5.99,\r\n        \"quantity\": 1,\r\n        \"imageUrl\": \"https://images.pexels.com/photos/1252534/pexels-photo-1252534.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2\"\r\n      }\r\n  ],\r\n  \"subTotal\": 2.3,\r\n  \"deliveryFee\": 10.67,\r\n  \"totalAmount\": 27.97,\r\n  \"orderTime\": 1713784857000,\r\n  \"deliveryAddress\": \"123 Main St, Colombo\",\r\n  \"restaurantAddress\": \"45 Food Ave, Colombo\",\r\n  \"deliveryTime\": 1713788457000,\r\n  \"orderStatus\": \"PENDING\",\r\n  \"paymentId\": \"pay789\",\r\n  \"userId\": \"user001\"\r\n\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{order_service_url}}/api/v1/order",
+							"host": [
+								"{{order_service_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDTATE ORDER",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"orderNumber\": 1001,\r\n  \"customerId\": \"cust223\",\r\n  \"restaurantId\": \"rest456\",\r\n  \"orderItems\": [\r\n    {\r\n      \"foodItemId\": \"food003\",\r\n      \"name\": \"Cheese Pepperoni Pizza\",\r\n      \"quantity\": 2,\r\n      \"price\": 12.99\r\n    },\r\n    {\r\n      \"foodItemId\": \"food002\",\r\n      \"name\": \"Coca-Cola\",\r\n      \"quantity\": 1,\r\n      \"price\": 1.99\r\n    }\r\n  ],\r\n  \"totalAmount\": 27.97,\r\n  \"orderTime\": 1713784857000,\r\n  \"deliveryAddress\": \"123 Main St, Colombo\",\r\n  \"restaurantAddress\": \"45 Food Ave, Colombo\",\r\n  \"deliveryTime\": 1713788457000,\r\n  \"orderStatus\": \"PENDING\",\r\n  \"paymentId\": \"pay789\",\r\n  \"userId\": \"user001\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{order_service_url}}/api/v1/order/update/{{orderId}}",
+							"host": [
+								"{{order_service_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"update",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDTATE ORDER STATUS",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"orderStatus\": \"READY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{order_service_url}}/api/v1/order/{{orderId}}/status",
+							"host": [
+								"{{order_service_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"{{orderId}}",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE ORDER",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/order-service/api/v1/order/delete/{{orderId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"order-service",
+								"api",
+								"v1",
+								"order",
+								"delete",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get order by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{order_service_url}}/api/v1/order/680756fdb141ae0c688a0e55",
+							"host": [
+								"{{order_service_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"680756fdb141ae0c688a0e55"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get orders by customer id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{order_service_url}}/api/v1/order/customer/1",
+							"host": [
+								"{{order_service_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"customer",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get orders by restaurent id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{order_service_url}}/api/v1/order/restaurant/rest456",
+							"host": [
+								"{{order_service_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"restaurant",
+								"rest456"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get orders by order status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{order_url}}/api/v1/order/status/READY",
+							"host": [
+								"{{order_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"status",
+								"READY"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign a driver to an order",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"driverId\": \"driver123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{order_service_url}}/api/v1/order/{{orderId}}/assign-driver",
+							"host": [
+								"{{order_service_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"{{orderId}}",
+								"assign-driver"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get order by order number",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"orderNumber\": 1022,\r\n  \"customerId\": \"cust12176\",\r\n  \"restaurantId\": \"rest456\",\r\n  \"restaurantName\": \"foodcenter\",\r\n  \"orderItems\": [\r\n    {\r\n        \"foodItemId\": \"201\",\r\n        \"name\": \"Margherita Pizza\",\r\n        \"price\": 12.99,\r\n        \"quantity\": 1,\r\n        \"imageUrl\": \"https://images.pexels.com/photos/803290/pexels-photo-803290.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2\"\r\n      },\r\n      {\r\n        \"foodItemId\": \"203\",\r\n        \"name\": \"Garlic Breadsticks\",\r\n        \"price\": 5.99,\r\n        \"quantity\": 1,\r\n        \"imageUrl\": \"https://images.pexels.com/photos/1252534/pexels-photo-1252534.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2\"\r\n      }\r\n  ],\r\n  \"subTotal\": 2.3,\r\n  \"deliveryFee\": 10.67,\r\n  \"totalAmount\": 27.97,\r\n  \"orderTime\": 1713784857000,\r\n  \"deliveryAddress\": \"123 Main St, Colombo\",\r\n  \"restaurantAddress\": \"45 Food Ave, Colombo\",\r\n  \"deliveryTime\": 1713788457000,\r\n  \"orderStatus\": \"PENDING\",\r\n  \"paymentId\": \"pay789\",\r\n  \"userId\": \"user001\"\r\n\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{order_service_url}}/api/v1/order/number/4215",
+							"host": [
+								"{{order_service_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"number",
+								"4215"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get order by driver id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{order_service_url}}/api/v1/order/driver/{{driverId}}",
+							"host": [
+								"{{order_service_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"driver",
+								"{{driverId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "TEST",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/api/v1/auth/test",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REGISTER / SignUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user45@example.com\",\r\n    \"username\": \"testuser\",\r\n    \"password\": \"password123\",\r\n    \"role\": \"CUSTOMER\",\r\n    \"profile\": {\r\n            \"fullName\": \"Testi Test\",\r\n            \"phoneNumber\": 77114422,\r\n            \"profileImageUrl\": \"imageUrl\"\r\n        }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth-url}}/api/v1/auth/register",
+							"host": [
+								"{{auth-url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user45@example.com\",\r\n    \"password\": \"newPassword456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/api/v1/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/api/v1/auth/profile",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Token Refresh",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "refreshToken=0a5208be-a58b-4042-a3a9-9a9d3a6dfafd",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{auth-url}}/api/v1/auth/refresh",
+							"host": [
+								"{{auth-url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "refreshToken=0a5208be-a58b-4042-a3a9-9a9d3a6dfafd",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{auth-url}}/api/v1/auth/logout",
+							"host": [
+								"{{auth-url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Jasmine\",\r\n    \"profile\": {\r\n        \"fullName\": \"Full Name\",\r\n        \"phoneNumber\": \"1234567890\",\r\n        \"profileImageUrl\": \"https://example.com/profile.jpg\"\r\n    },\r\n    \"driverProfile\": {\r\n        \"licenseNumber\": \"DL9876543\",\r\n        \"vehicleType\": \"Car\",\r\n        \"vehicleNumber\": \"ABC-123\",\r\n        \"profileImageUrl\": \"https://example.com/driver.jpg\"\r\n    },\r\n    \"restaurantProfile\": {\r\n        \"restaurantName\": \"Example Restaurant\",\r\n        \"address\": \"123 Food Street, Foodville\",\r\n        \"contactNumber\": \"9876543210\",\r\n        \"restaurantImageUrl\": \"https://example.com/restaurant.jpg\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth-url}}/api/v1/auth/profile",
+							"host": [
+								"{{auth-url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Password Reset",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test",
+			"item": [
+				{
+					"name": "Order direct test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.49.2:30573/api/v1/order/test",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"49",
+								"2"
+							],
+							"port": "30573",
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth direct test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.49.2:30001/api/v1/auth/test",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"49",
+								"2"
+							],
+							"port": "30001",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gateway Auth test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.49.2:30003/auth-service/api/v1/auth/test",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"49",
+								"2"
+							],
+							"port": "30003",
+							"path": [
+								"auth-service",
+								"api",
+								"v1",
+								"auth",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gateway order test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.49.2:30003/order-service/api/v1/order/test",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"49",
+								"2"
+							],
+							"port": "30003",
+							"path": [
+								"order-service",
+								"api",
+								"v1",
+								"order",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gateway delivery test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.49.2:30003/delivery-service/api/v1/delivery/test",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"49",
+								"2"
+							],
+							"port": "30003",
+							"path": [
+								"delivery-service",
+								"api",
+								"v1",
+								"delivery",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gateway delivery test Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/api/v1/delivery/test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"api",
+								"v1",
+								"delivery",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eureka test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.49.2:30061/eureka/apps",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"49",
+								"2"
+							],
+							"port": "30061",
+							"path": [
+								"eureka",
+								"apps"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payment Service",
+			"item": [
+				{
+					"name": "checkout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\":400,\n    \"quantity\":20,\n    \"name\":\"zzz\",\n    \"currency\":\"LKR\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{payment_url}}api/v1/payment/strip/checkout",
+							"host": [
+								"{{payment_url}}api"
+							],
+							"path": [
+								"v1",
+								"payment",
+								"strip",
+								"checkout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getallpayment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\":400,\n    \"quantity\":20,\n    \"name\":\"zzz\",\n    \"currency\":\"LKR\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{payment_url}}api/v1/payment/strip/checkout",
+							"host": [
+								"{{payment_url}}api"
+							],
+							"path": [
+								"v1",
+								"payment",
+								"strip",
+								"checkout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Restuarant Service",
+			"item": []
+		},
+		{
+			"name": "create restaurant",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Burger Barn\",\r\n    \"description\": \"Gourmet burgers with fresh ingredients\",\r\n    \"address\": {\r\n        \"address\": \"456 Oak Ave\",\r\n        \"city\": \"Chicago\",\r\n        \"state\": \"IL\",\r\n        \"zipcode\": 60601\r\n    },\r\n    \"contactInfo\": [5551234567],\r\n    \"rating\": 4.2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:60915/restaurant-service/api/v1/restaurant",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "60915",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update my restaurant",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"lucky food\",\r\n    \"description\": \"Gourmet burgers with fresh ingredients\",\r\n    \"address\": {\r\n        \"address\": \"456 Oak Ave\",\r\n        \"city\": \"Chicago\",\r\n        \"state\": \"IL\",\r\n        \"zipcode\": 60601\r\n    },\r\n    \"contactInfo\": [5551234567],\r\n    \"rating\": 4.2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:60915/restaurant-service/api/v1/restaurant/my/68280763db4c5c63cbb551fd",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "60915",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant",
+						"my",
+						"68280763db4c5c63cbb551fd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin view all restaurants",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Burger Barn\",\r\n    \"description\": \"Gourmet burgers with fresh ingredients\",\r\n    \"address\": {\r\n        \"address\": \"456 Oak Ave\",\r\n        \"city\": \"Chicago\",\r\n        \"state\": \"IL\",\r\n        \"zipcode\": 60601\r\n    },\r\n    \"contactInfo\": [5551234567],\r\n    \"rating\": 4.2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:60915/restaurant-service/api/v1/restaurant/admin/all",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "60915",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant",
+						"admin",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get my restaurant",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Burger Barn\",\r\n    \"description\": \"Gourmet burgers with fresh ingredients\",\r\n    \"address\": {\r\n        \"address\": \"456 Oak Ave\",\r\n        \"city\": \"Chicago\",\r\n        \"state\": \"IL\",\r\n        \"zipcode\": 60601\r\n    },\r\n    \"contactInfo\": [5551234567],\r\n    \"rating\": 4.2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:60915/restaurant-service/api/v1/restaurant/my/680b7d388ddb6920174292cb",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "60915",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant",
+						"my",
+						"680b7d388ddb6920174292cb"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete my restaurant",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Burger Barn\",\r\n    \"description\": \"Gourmet burgers with fresh ingredients\",\r\n    \"address\": {\r\n        \"address\": \"456 Oak Ave\",\r\n        \"city\": \"Chicago\",\r\n        \"state\": \"IL\",\r\n        \"zipcode\": 60601\r\n    },\r\n    \"contactInfo\": [5551234567],\r\n    \"rating\": 4.2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:60915/restaurant-service/api/v1/restaurant/my/68280718db4c5c63cbb551fc",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "60915",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant",
+						"my",
+						"68280718db4c5c63cbb551fc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin get pending restaurants",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:60915/restaurant-service/api/v1/restaurant/admin/pending",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "60915",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant",
+						"admin",
+						"pending"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin verifies restaurant",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:60915/restaurant-service/api/v1/restaurant/admin/verify/68280763db4c5c63cbb551fd?isApproved=true",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "60915",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant",
+						"admin",
+						"verify",
+						"68280763db4c5c63cbb551fd"
+					],
+					"query": [
+						{
+							"key": "isApproved",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update restaurant availability",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Burger Barn\",\r\n    \"description\": \"Gourmet burgers with fresh ingredients\",\r\n    \"address\": {\r\n        \"address\": \"456 Oak Ave\",\r\n        \"city\": \"Chicago\",\r\n        \"state\": \"IL\",\r\n        \"zipcode\": 60601\r\n    },\r\n    \"contactInfo\": [5551234567],\r\n    \"rating\": 4.2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:60915/restaurant-service/api/v1/restaurant/68280763db4c5c63cbb551fd/status?status=CLOSED",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "60915",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant",
+						"68280763db4c5c63cbb551fd",
+						"status"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "CLOSED"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get daily income",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Burger Barn\",\r\n    \"description\": \"Gourmet burgers with fresh ingredients\",\r\n    \"address\": {\r\n        \"address\": \"456 Oak Ave\",\r\n        \"city\": \"Chicago\",\r\n        \"state\": \"IL\",\r\n        \"zipcode\": 60601\r\n    },\r\n    \"contactInfo\": [5551234567],\r\n    \"rating\": 4.2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:60915/restaurant-service/api/v1/restaurant/my/68280763db4c5c63cbb551fd/income/daily?date=2024-05-20",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "60915",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant",
+						"my",
+						"68280763db4c5c63cbb551fd",
+						"income",
+						"daily"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "2024-05-20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get total income",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Burger Barn\",\r\n    \"description\": \"Gourmet burgers with fresh ingredients\",\r\n    \"address\": {\r\n        \"address\": \"456 Oak Ave\",\r\n        \"city\": \"Chicago\",\r\n        \"state\": \"IL\",\r\n        \"zipcode\": 60601\r\n    },\r\n    \"contactInfo\": [5551234567],\r\n    \"rating\": 4.2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:60915/restaurant-service/api/v1/restaurant/my/68280763db4c5c63cbb551fd/income/total",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "60915",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant",
+						"my",
+						"68280763db4c5c63cbb551fd",
+						"income",
+						"total"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "customer feedback submit",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"orderId\": \"order123\",\r\n    \"userId\": \"user456\",\r\n    \"comment\": \"Best sushi I've ever had!\",\r\n    \"rating\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:64321/restaurant-service/api/v1/restaurant/my/68280763db4c5c63cbb551fd/feedback",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "64321",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant",
+						"my",
+						"68280763db4c5c63cbb551fd",
+						"feedback"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create menu",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Margherita Pizza\",\r\n    \"description\": \"Classic pizza with tomato and mozzarella\",\r\n    \"price\": 12.99,\r\n    \"quantity\": 50,\r\n    \"restaurantId\": \"rest123\",\r\n    \"category\": \"Pizza\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:64321/restaurant-service/api/v1/menuItem",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "64321",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"menuItem"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:59975",
+			"type": "default"
+		},
+		{
+			"key": "order_service_url",
+			"value": "http://localhost:8082",
+			"type": "string"
+		},
+		{
+			"key": "orderId",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "payment_service_url",
+			"value": "http://localhost:8081",
+			"type": "string"
+		},
+		{
+			"key": "auth-url",
+			"value": "localhost:8080",
+			"type": "default"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "delivery_url",
+			"value": "http://192.168.49.2:30003/delivery-service",
+			"type": "string"
+		},
+		{
+			"value": "",
+			"type": "string"
+		},
+		{
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "driverId",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
