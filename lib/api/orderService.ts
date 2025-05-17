@@ -5,7 +5,7 @@ const extractBaseUrl = () => {
   const url = process.env.NEXT_PUBLIC_ORDER_SERVICE_URL || '';
   if (!url) {
     console.error('ORDER_SERVICE_URL is not defined in environment variables');
-    return 'http://localhost:8082/api/v1/order'; // Fallback URL
+    return 'http://localhost:8080/order-service/api/v1/order'; // Fallback URL
   }
   return url;
 };

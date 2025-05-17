@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { User, Settings, History, CreditCard } from "lucide-react";
+import Link from "next/link";
 
 export default function ProfilePage() {
   return (
@@ -56,7 +57,8 @@ export default function ProfilePage() {
             </CardContent>
           </Card>
 
-          <Card className="hover:bg-gray-50 transition-colors cursor-pointer">
+          <Link href="/customer/payments">
+                    <Card className="hover:bg-gray-50 transition-colors cursor-pointer">
             <CardContent className="pt-6">
               <div className="flex items-center gap-4">
                 <CreditCard className="h-6 w-6 text-gray-600" />
@@ -67,6 +69,7 @@ export default function ProfilePage() {
               </div>
             </CardContent>
           </Card>
+          </Link>
         </div>
 
         {/* Additional Details */}

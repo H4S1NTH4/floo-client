@@ -20,73 +20,6 @@ export default function CartPage() {
   const router = useRouter();
   const { toast } = useToast();
 
-  // const handleCheckout = async () => {
-  //   if (!deliveryAddress) {
-  //     toast({
-  //       title: 'Address required',
-  //       description: 'Please enter a delivery address',
-  //       variant: 'destructive',
-  //     });
-  //     return;
-  //   }
-
-  //   // Prepare cart details for the API request
-  //   const cartDetails = items.map(item => ({
-  //     name: item.name,
-  //     amount: item.price,
-  //     quantity: item.quantity,
-  //     currency: 'USD', // Hardcoded currency
-  //   }));
-
-  //   // Log cart details to the console
-  //   console.log('Cart Details:', cartDetails);
-
-  //   try {
-  //     // Send cart details to the payment API
-  //     const response = await fetch('http://localhost:8081/api/v1/payment/strip/checkout', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(cartDetails),
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error('Failed to initiate payment');
-  //     }
-
-  //     const paymentResult = await response.json();
-  //     console.log('Payment API Response:', paymentResult);
-
-  //     setIsLoading(true);
-  //     const order = await customerService.placeOrder(
-  //       '1', // Mock customer ID
-  //       restaurantId!,
-  //       items.map(item => ({ id: item.id, quantity: item.quantity })),
-  //       deliveryAddress
-  //     );
-      
-  //     // Clear cart after successful order
-  //     clearCart();
-      
-  //     toast({
-  //       title: 'Order placed successfully!',
-  //       description: 'You will be redirected to track your order',
-  //     });
-      
-  //     // Redirect to order tracking page
-  //     router.push(`/customer/orders/${order.id}`);
-  //   } catch (error) {
-  //     console.error('Failed to place order or initiate payment:', error);
-  //     toast({
-  //       title: 'Failed to place order',
-  //       description: 'An error occurred while placing your order. Please try again.',
-  //       variant: 'destructive',
-  //     });
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
   const calculateDeliveryFee = async () => {
     if (!deliveryAddress) return;
     
@@ -165,7 +98,7 @@ export default function CartPage() {
       
       localStorage.setItem('pendingCheckout', JSON.stringify(checkoutData));
   
-      const response = await fetch('http://localhost:8081/api/v1/payment/strip/checkout', {
+      const response = await fetch('http://127.0.0.1:8080/payment-service/api/v1/payment/strip/checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

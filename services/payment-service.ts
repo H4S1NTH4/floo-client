@@ -13,6 +13,9 @@ const payments: Payment[] = [
   { id: '2', userId: '2', amount: 15.49, date: new Date().toISOString(), status: 'failed' },
 ];
 
+// delay function
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 class PaymentService {
   async processPayment(userId: string, amount: number): Promise<Payment> {
     await delay(500);
@@ -40,17 +43,13 @@ class PaymentService {
   async generateReport(): Promise<Blob> {
     const doc = new jsPDF();
 
-    // Add title
     doc.text('Payment Report', 10, 10);
-
-    // Add table headers
     doc.text('ID', 10, 20);
     doc.text('User ID', 50, 20);
     doc.text('Amount', 90, 20);
     doc.text('Date', 130, 20);
     doc.text('Status', 170, 20);
 
-    // Add payment data
     payments.forEach((payment, index) => {
       const y = 30 + index * 10;
       doc.text(payment.id, 10, y);
@@ -60,18 +59,15 @@ class PaymentService {
       doc.text(payment.status, 170, y);
     });
 
-    // Generate PDF as Blob
-    const pdfBlob = doc.output('blob');
-    return pdfBlob;
+    return doc.output('blob');
   }
 
-  async getAggregatedData(): Promise<{ [key: string]: number }> {
-    const statusCounts = payments.reduce((acc, payment) => {
-      acc[payment.status] = (acc[payment.status] || 0) + 1;
-      return acc;
-    }, {});
-
-    return statusCounts;
+  async getAggregatedData(): Promise<{ success: number; failed: number }> {
+    const counts = { success: 0, failed: 0 };
+    for (const payment of payments) {
+      counts[payment.status]++;
+    }
+    return counts;
   }
 }
 

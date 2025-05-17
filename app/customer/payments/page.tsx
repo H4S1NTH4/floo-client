@@ -1,75 +1,80 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { paymentService } from '@/services/payment-service';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { useToast } from '@/hooks/use-toast';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-export default function PaymentsPage() {
-  const [payments, setPayments] = useState([]);
-  const [amount, setAmount] = useState('');
-  const [isProcessing, setIsProcessing] = useState(false);
-  const { toast } = useToast();
+// Define payment type
+type Payment = {
+  id: string;
+  name: string;
+  status: string;
+  amount: number;
+  currency: string;
+  quantity: number;
+  createdAt: string;
+};
+
+export default function PaymentListPage() {
+  const [payments, setPayments] = useState<Payment[]>([]);
 
   useEffect(() => {
     const fetchPayments = async () => {
-      const userPayments = await paymentService.getUserPayments('1'); // Mock user ID
-      setPayments(userPayments);
+      try {
+        const res = await axios.get("http://127.0.0.1:8080/payment-service/api/v1/payment/all");
+        setPayments(res.data);
+      } catch (err) {
+        console.error("Error fetching payments:", err);
+      }
     };
     fetchPayments();
   }, []);
 
-  const handlePayment = async () => {
-    if (!amount) {
-      toast({ title: 'Error', description: 'Enter a valid amount', variant: 'destructive' });
-      return;
-    }
-    setIsProcessing(true);
-    try {
-      const payment = await paymentService.processPayment('1', parseFloat(amount));
-      setPayments(prev => [payment, ...prev]);
-      toast({ title: 'Payment Status', description: `Payment ${payment.status}`, variant: payment.status === 'success' ? 'default' : 'destructive' });
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsProcessing(false);
+  const getStatusStyle = (status: string) => {
+    switch (status.toLowerCase()) {
+      case "completed":
+        return "bg-green-100 text-green-800";
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "failed":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Payments</h1>
-      <Card>
-        <CardHeader>
-          <CardTitle>Make a Payment</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <Input
-            type="number"
-            placeholder="Enter amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
-          <Button onClick={handlePayment} disabled={isProcessing}>
-            {isProcessing ? 'Processing...' : 'Pay Now'}
-          </Button>
-        </CardContent>
-      </Card>
-
-      <h2 className="text-xl font-bold mt-8 mb-4">Payment History</h2>
-      {payments.map(payment => (
-        <Card key={payment.id} className="mb-4">
-          <CardContent>
-            <div className="flex justify-between">
-              <span>${payment.amount.toFixed(2)}</span>
-              <span>{payment.status}</span>
-            </div>
-            <div className="text-sm text-gray-500">{new Date(payment.date).toLocaleString()}</div>
-          </CardContent>
-        </Card>
-      ))}
+    <div className="p-6">
+      <h2 className="text-2xl font-semibold mb-4">Payment List</h2>
+      <div className="overflow-x-auto rounded-xl shadow">
+        <table className="min-w-full divide-y divide-gray-200 bg-white dark:bg-gray-900 text-sm">
+          <thead className="bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
+            <tr>
+              <th className="px-4 py-3 text-left">Name</th>
+              <th className="px-4 py-3 text-left">Status</th>
+              <th className="px-4 py-3 text-left">Amount</th>
+              <th className="px-4 py-3 text-left">Currency</th>
+              <th className="px-4 py-3 text-left">Quantity</th>
+              <th className="px-4 py-3 text-left">Created</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
+            {payments.map((payment) => (
+              <tr key={payment.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
+                <td className="px-4 py-3">{payment.name}</td>
+                <td className="px-4 py-3">
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusStyle(payment.status)}`}>
+                    {payment.status}
+                  </span>
+                </td>
+                <td className="px-4 py-3">{payment.amount}</td>
+                <td className="px-4 py-3">{payment.currency}</td>
+                <td className="px-4 py-3">{payment.quantity}</td>
+                <td className="px-4 py-3">{new Date(payment.createdAt).toLocaleString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
