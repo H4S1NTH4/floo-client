@@ -288,3 +288,47 @@ export async function getAllDrivers(): Promise<Driver[] | null> {
     return null;
   }
 }
+
+export async function updateOrderStatusToReadyAPI() {
+  const orderId = "682850c83c77aa2c1ab93ba2"; // Hardcoded Order ID
+  // IMPORTANT: This IP address is likely for local development.
+  // For production, use a proper domain and ensure it's accessible.
+  // Your backend might also require a different port or path structure.
+  const url = `http://192.168.49.2:30003/order-service/api/v1/order/${orderId}/status`;
+  const payload = { orderStatus: "DELIVERED" }; // Hardcoded status
+
+  console.log(`Attempting to PATCH order status to READY for order ${orderId} at ${url}`);
+
+  try {
+    const response = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        // TODO: Add Authorization header if your API requires it
+        // 'Authorization': `Bearer YOUR_AUTH_TOKEN`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      let errorData;
+      try {
+        errorData = await response.json();
+      } catch (e) {
+        errorData = { message: response.statusText };
+      }
+      console.error(`Failed to update order status. Server responded with ${response.status}:`, errorData);
+      // Optionally, you could throw an error here to be caught by the caller
+      // throw new Error(`Failed to update order status: ${errorData.message || response.statusText}`);
+      return { success: false, status: response.status, error: errorData };
+    }
+
+    const data = await response.json();
+    console.log('Order status updated successfully to READY:', data);
+    return { success: true, data };
+  } catch (error) {
+    console.error('Network or other error making PATCH request:', error);
+    // This catches network errors (e.g., server down, DNS issues) or errors in the try block
+    return { success: false, error: error instanceof Error ? error.message : String(error) };
+  }
+}

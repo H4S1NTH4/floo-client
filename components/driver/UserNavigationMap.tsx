@@ -3,6 +3,7 @@
 import { APIProvider, Map, Marker, useMap } from '@vis.gl/react-google-maps';
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation'; // Use next/navigation for router
+import {updateOrderStatusToReadyAPI} from '@/lib/api/deliveryService'; // Adjust the import path as necessary
 
 interface MapComponentProps {
   start?: { lat: number; lng: number };
@@ -167,9 +168,16 @@ function RealTimeDirections({ startLocation, destinationLocation }: RealTimeDire
     return () => clearInterval(timer);
   }, [isSimulating, routePath, currentPathIndex, map, hasSimulationRunToEnd]);
 
-  const handlePopupCloseAndRedirect = () => {
+  const handlePopupCloseAndRedirect = async() => {
     setShowPopupCard(false);
-    router.push('/driver/home'); // Redirect to the new page
+    const updateResult = await updateOrderStatusToReadyAPI();
+    if (updateResult.success) {
+      console.log("Order status successfully updated. Redirecting to driver home.");
+    }
+    else{
+      console.error("Failed to update order status.");
+    }
+    router.push('/driver/home'); // Redirect to the home page
   };
 
   const handleToggleSimulation = () => {

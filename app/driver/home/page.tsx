@@ -1,7 +1,6 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-
 import { useState,useEffect } from 'react';
 import { DriverStatus } from '@/types/driver';
 import { updateDriverStatus } from '@/lib/api/deliveryService';
@@ -45,30 +44,16 @@ export default function Home() {
       };
     }, [isOnline]);
 
-  const handleOnlineClick = async () => {
-    const newOnlineStatus = !isOnline;
-    setIsOnline(newOnlineStatus);
+  const handleOnlineClick = async () =>  {
+    setIsOnline(!isOnline);
+    setShowOrderCard(true);
 
     const driverId = "6826199186c67747e579e3db"; // Replace with actual driver ID
-    const newStatus = newOnlineStatus ? DriverStatus.ONLINE : DriverStatus.OFFLINE;
-    
+    const newStatus = !isOnline ? DriverStatus.ONLINE : DriverStatus.OFFLINE;
     try {
       const updatedDriver = await updateDriverStatus(driverId, newStatus);
       if (updatedDriver) {
-        if (newOnlineStatus) {
-          // Start polling when going online
-          await fetchOrders(); // Initial fetch
-          const interval = setInterval(fetchOrders, 10000); // Poll every 10 seconds
-          setPollingInterval(interval);
-        } else {
-          // Stop polling when going offline
-          if (pollingInterval) {
-            clearInterval(pollingInterval);
-            setPollingInterval(null);
-          }
-          setShowOrderCard(false);
-          setCurrentOrder(null);
-        }
+      
       } else {
         console.error("Failed to update driver status");
       }
@@ -76,7 +61,6 @@ export default function Home() {
       console.error("Error updating driver status:", error);
     }
   };
-
   const handleAccept = async () => {
     const driverId = "6826199186c67747e579e3db"; // Replace with actual driver ID
     
@@ -98,7 +82,6 @@ export default function Home() {
   const handleDecline = () => {
     console.log('Order declined');
     setOrder(null);
-
   };
 
   return (
@@ -117,8 +100,10 @@ export default function Home() {
       </header>
 
       <main className="flex-1 p-4 flex flex-col items-center">
-        <MapComponent />
+      <MapComponent />
+      {/* <AcceptOrderCard /> */}
 
+        {/* Online/Offline Button */}
         <button
           className={`mb-4 px-6 py-2 rounded-full font-semibold transition-colors duration-200 ${
             isOnline
@@ -137,7 +122,6 @@ export default function Home() {
                 order={order}
                 onAccept={handleAccept}
                 onDecline={handleDecline}
-
               />
             </div>
           </div>
