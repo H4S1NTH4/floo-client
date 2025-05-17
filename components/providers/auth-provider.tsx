@@ -83,7 +83,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } else if (newUser.role === 'restaurant') {
         router.push('/restaurant/dashboard');
       } else if (newUser.role === 'driver') {
-        router.push('/driver/available');
+        router.push('/driver/home');
       }
     } catch (error) {
       console.error('Signup failed:', error);
