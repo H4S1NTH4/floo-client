@@ -2,19 +2,32 @@
 
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
+import { DriverStatus } from '@/types/driver';
+import { updateDriverStatus } from '@/lib/api/deliveryService';
+
 
 const MapComponent = dynamic(() => import('@/components/driver/MapComponent'), { ssr: false });
 const AcceptOrderCard = dynamic(() => import('@/components/driver/AcceptOrderCard'), { ssr: false });
-
 
 export default function Home() {
   const [isOnline, setIsOnline] = useState(false);
   const [showOrderCard, setShowOrderCard] = useState(false);
 
-  const handleOnlineClick = () => {
-    setIsOnline(prev => !prev);
-    // Show order card when going online, hide when going offline
-    setShowOrderCard(prev => !isOnline);
+  const handleOnlineClick = async () =>  {
+    setIsOnline(!isOnline);
+
+    const driverId = "6826199186c67747e579e3db"; // Replace with actual driver ID
+    const newStatus = !isOnline ? DriverStatus.ONLINE : DriverStatus.OFFLINE;
+    try {
+      const updatedDriver = await updateDriverStatus(driverId, newStatus);
+      if (updatedDriver) {
+      
+      } else {
+        console.error("Failed to update driver status");
+      }
+    } catch (error) {
+      console.error("Error updating driver status:", error);
+    }
   };
   const handleAccept = () => {
     // Implement accept logic here
