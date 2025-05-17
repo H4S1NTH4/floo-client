@@ -59,7 +59,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } else if (loggedInUser.role === 'restaurant') {
         router.push('/restaurant/dashboard');
       } else if (loggedInUser.role === 'driver') {
-        router.push('/driver/available');
+        router.push('/driver/home');
       } else if (loggedInUser.role === 'admin') {
         router.push('/admin/dashboard');
       }
