@@ -2,14 +2,16 @@
 
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { ShoppingBag, Search, ClipboardList, Heart, User, ShoppingCart } from 'lucide-react';
 
 // Hardcoded destination (e.g., Galle Face Green, Colombo)
 const DESTINATION = {
-  lat: 6.927079,
-  lng: 79.861244,
+  lat: 6.9084,
+  lng: 79.9416,
 };
 
-const MapComponent = dynamic(() => import('@/components/driver/MapComponent'), { ssr: false });
+const MapComponent = dynamic(() => import('@/components/driver/DirectionMap'), { ssr: false });
 
 export default function NavigatePage() {
   const [selfLocation, setSelfLocation] = useState<{ lat: number; lng: number } | null>(null);
@@ -25,17 +27,22 @@ export default function NavigatePage() {
         },
         () => {
           // Fallback to Colombo if location not available
-          setSelfLocation({ lat: 6.9271, lng: 79.8612 });
+          setSelfLocation({ lat: 6.9146, lng: 79.9720 });
         }
       );
     } else {
-      setSelfLocation({ lat: 6.9271, lng: 79.8612 });
+      setSelfLocation({ lat: 6.9146, lng: 79.9720 });
     }
   }, []);
 
   return (
     <div>
       <header className="flex justify-end items-center p-4 bg-white shadow">
+      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <Link href="/driver/home" className="flex items-center gap-2">
+            <ShoppingBag className="h-6 w-6 text-[#7ED957]" />
+            <span className="font-bold text-xl">Floo</span>
+          </Link></div>
         <img
           src="../../hasintha_profile.png"
           alt="Profile"
@@ -44,6 +51,7 @@ export default function NavigatePage() {
       </header>
 
       <main className="flex-1 p-4 flex flex-col items-center">
+  
         <div className="w-full">
           {selfLocation ? (
             <MapComponent

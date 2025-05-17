@@ -5,12 +5,16 @@ import { useState,useEffect } from 'react';
 import { DriverStatus } from '@/types/driver';
 import { updateDriverStatus } from '@/lib/api/deliveryService';
 import {fetchOrdersByStatus} from '@/lib/api/orderService';
+import Link from 'next/link';
+import { ShoppingBag, Search, ClipboardList, Heart, User, ShoppingCart } from 'lucide-react';
+import { useRouter } from 'next/navigation'; // Add this import at the top
 
 
 const MapComponent = dynamic(() => import('@/components/driver/MapComponent'), { ssr: false });
 const AcceptOrderCard = dynamic(() => import('@/components/driver/AcceptOrderCard'), { ssr: false });
 
 export default function Home() {
+  const router = useRouter();
   const [isOnline, setIsOnline] = useState(false);
   const [showOrderCard, setShowOrderCard] = useState(false);
   const [order, setOrder] = useState<any>(null);
@@ -67,6 +71,7 @@ export default function Home() {
         console.log('Order accepted and status updated to DELIVERY');
         setShowOrderCard(false);
         setIsOnline(false); // Optionally update the online status
+        router.push('/driver/navi');
       } else {
         console.error("Failed to update driver status to DELIVERY");
       }
@@ -83,6 +88,11 @@ export default function Home() {
   return (
     <div >
       <header className="flex justify-end items-center p-4 bg-white shadow">
+      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <Link href="/driver/home" className="flex items-center gap-2">
+            <ShoppingBag className="h-6 w-6 text-[#7ED957]" />
+            <span className="font-bold text-xl">Floo</span>
+          </Link></div>
         <img
           src="../../hasintha_profile.png"
           alt="Profile"
