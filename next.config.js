@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // Removed 'output: export' to allow server-side rendering for dynamic routes
   eslint: {
     ignoreDuringBuilds: true,
   },

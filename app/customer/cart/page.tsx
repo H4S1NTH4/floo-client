@@ -99,7 +99,6 @@ export default function CartPage() {
       localStorage.setItem('pendingCheckout', JSON.stringify(checkoutData));
   
       const response = await fetch('http://127.0.0.1:8080/payment-service/api/v1/payment/strip/checkout', {
-      // const response = await fetch('http://127.0.0.1:8083/api/v1/payment/strip/checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
