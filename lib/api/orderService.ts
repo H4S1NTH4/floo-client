@@ -121,3 +121,23 @@ export const fetchOrdersByCustomerId = async (customerId: string) => {
     throw error;
   }
 };
+
+// Fetch orders by status
+export const fetchOrdersByStatus = async (status: string) => {
+  try {
+    const apiUrl = extractBaseUrl();
+    const res = await fetch(`${apiUrl}/status/${status}`, { 
+      cache: 'no-store',
+      headers: { 'Content-Type': 'application/json' } 
+    });
+    
+    if (!res.ok) {
+      throw new Error(`Failed to fetch orders by status ${status}: ${res.status}`);
+    }
+    
+    return res.json();
+  } catch (error) {
+    console.error(`Error fetching orders with status ${status}:`, error);
+    throw error;
+  }
+};
