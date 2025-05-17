@@ -1,9 +1,10 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { DriverStatus } from '@/types/driver';
 import { updateDriverStatus } from '@/lib/api/deliveryService';
+import {fetchOrdersByStatus} from '@/lib/api/orderService';
 
 
 const MapComponent = dynamic(() => import('@/components/driver/MapComponent'), { ssr: false });
@@ -12,6 +13,33 @@ const AcceptOrderCard = dynamic(() => import('@/components/driver/AcceptOrderCar
 export default function Home() {
   const [isOnline, setIsOnline] = useState(false);
   const [showOrderCard, setShowOrderCard] = useState(false);
+  const [order, setOrder] = useState<any>(null);
+
+    // Poll for READY orders every 10 seconds when online
+    useEffect(() => {
+      let interval: NodeJS.Timeout;
+      if (isOnline) {
+        const fetchOrder = async () => {
+          try {
+            const orders = await fetchOrdersByStatus('READY');
+            if (orders && orders.length > 0) {
+              setOrder(orders[0]); // Show the first available order
+            } else {
+              setOrder(null);
+            }
+          } catch (error) {
+            console.error('Error fetching orders:', error);
+          }
+        };
+        fetchOrder();
+        interval = setInterval(fetchOrder, 10000);
+      } else {
+        setOrder(null);
+      }
+      return () => {
+        if (interval) clearInterval(interval);
+      };
+    }, [isOnline]);
 
   const handleOnlineClick = async () =>  {
     setIsOnline(!isOnline);
@@ -48,16 +76,15 @@ export default function Home() {
   };
 
   const handleDecline = () => {
-    // Implement decline logic here
     console.log('Order declined');
-    setShowOrderCard(false); // Hide the order card after declining
+    setOrder(null);
   };
 
   return (
-    <div>
+    <div >
       <header className="flex justify-end items-center p-4 bg-white shadow">
         <img
-          src="/profile-placeholder.png"
+          src="../../hasintha_profile.png"
           alt="Profile"
           className="w-10 h-10 rounded-full border"
         />
@@ -78,17 +105,21 @@ export default function Home() {
         >
           {isOnline ? 'ONLINE' : 'OFFLINE'}
         </button>
-        {/* Popup Order Card */}
-        {showOrderCard && (
+        {/* Show order card if order data is available */}
+        {order && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
             <div className="w-full max-w-md">
-              <AcceptOrderCard onAccept={handleAccept} onDecline={handleDecline} />
+              <AcceptOrderCard
+                order={order}
+                onAccept={handleAccept}
+                onDecline={handleDecline}
+              />
             </div>
           </div>
         )}
       </main>
 
-      <footer className="fixed bottom-0 w-full max-w-[430px] bg-white border-t shadow-inner flex justify-around items-center p-4">
+      <footer className="fixed bottom-0 w-full bg-white border-t shadow-inner flex justify-around items-center p-4">
         <button className="text-gray-600 hover:text-black">🏠 Home</button>
         <button className="text-gray-600 hover:text-black">🗺️ Map</button>
         <button className="text-gray-600 hover:text-black">⚙️ Settings</button>
