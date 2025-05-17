@@ -1,10 +1,11 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DriverStatus } from '@/types/driver';
 import { updateDriverStatus } from '@/lib/api/deliveryService';
-
+import { fetchOrdersByStatus } from '@/lib/api/orderService';
+import { Order } from '@/types/order';
 
 const MapComponent = dynamic(() => import('@/components/driver/MapComponent'), { ssr: false });
 const AcceptOrderCard = dynamic(() => import('@/components/driver/AcceptOrderCard'), { ssr: false });
@@ -12,17 +13,55 @@ const AcceptOrderCard = dynamic(() => import('@/components/driver/AcceptOrderCar
 export default function Home() {
   const [isOnline, setIsOnline] = useState(false);
   const [showOrderCard, setShowOrderCard] = useState(false);
+  const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
+  const [pollingInterval, setPollingInterval] = useState<NodeJS.Timeout | null>(null);
 
-  const handleOnlineClick = async () =>  {
-    setIsOnline(!isOnline);
-    setShowOrderCard(true);
+  const fetchOrders = async () => {
+    try {
+      const orders = await fetchOrdersByStatus('READY');
+      if (orders && orders.length > 0) {
+        // Take only the first order
+        setCurrentOrder(orders[0]);
+        setShowOrderCard(true);
+      }
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+    }
+  };
+
+  useEffect(() => {
+    // Cleanup polling on component unmount
+    return () => {
+      if (pollingInterval) {
+        clearInterval(pollingInterval);
+      }
+    };
+  }, [pollingInterval]);
+
+  const handleOnlineClick = async () => {
+    const newOnlineStatus = !isOnline;
+    setIsOnline(newOnlineStatus);
 
     const driverId = "6826199186c67747e579e3db"; // Replace with actual driver ID
-    const newStatus = !isOnline ? DriverStatus.ONLINE : DriverStatus.OFFLINE;
+    const newStatus = newOnlineStatus ? DriverStatus.ONLINE : DriverStatus.OFFLINE;
+    
     try {
       const updatedDriver = await updateDriverStatus(driverId, newStatus);
       if (updatedDriver) {
-      
+        if (newOnlineStatus) {
+          // Start polling when going online
+          await fetchOrders(); // Initial fetch
+          const interval = setInterval(fetchOrders, 10000); // Poll every 10 seconds
+          setPollingInterval(interval);
+        } else {
+          // Stop polling when going offline
+          if (pollingInterval) {
+            clearInterval(pollingInterval);
+            setPollingInterval(null);
+          }
+          setShowOrderCard(false);
+          setCurrentOrder(null);
+        }
       } else {
         console.error("Failed to update driver status");
       }
@@ -30,6 +69,7 @@ export default function Home() {
       console.error("Error updating driver status:", error);
     }
   };
+
   const handleAccept = async () => {
     const driverId = "6826199186c67747e579e3db"; // Replace with actual driver ID
     
@@ -38,7 +78,12 @@ export default function Home() {
       if (updatedDriver) {
         console.log('Order accepted and status updated to DELIVERY');
         setShowOrderCard(false);
-        setIsOnline(false); // Optionally update the online status
+        setCurrentOrder(null);
+        setIsOnline(false);
+        if (pollingInterval) {
+          clearInterval(pollingInterval);
+          setPollingInterval(null);
+        }
       } else {
         console.error("Failed to update driver status to DELIVERY");
       }
@@ -48,9 +93,8 @@ export default function Home() {
   };
 
   const handleDecline = () => {
-    // Implement decline logic here
-    console.log('Order declined');
-    setShowOrderCard(false); // Hide the order card after declining
+    setShowOrderCard(false);
+    setCurrentOrder(null);
   };
 
   return (
@@ -64,10 +108,8 @@ export default function Home() {
       </header>
 
       <main className="flex-1 p-4 flex flex-col items-center">
-      <MapComponent />
-      {/* <AcceptOrderCard /> */}
+        <MapComponent />
 
-        {/* Online/Offline Button */}
         <button
           className={`mb-4 px-6 py-2 rounded-full font-semibold transition-colors duration-200 ${
             isOnline
@@ -78,11 +120,15 @@ export default function Home() {
         >
           {isOnline ? 'ONLINE' : 'OFFLINE'}
         </button>
-        {/* Popup Order Card */}
-        {showOrderCard && (
+
+        {showOrderCard && currentOrder && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
             <div className="w-full max-w-md">
-              <AcceptOrderCard onAccept={handleAccept} onDecline={handleDecline} />
+              <AcceptOrderCard 
+                order={currentOrder}
+                onAccept={handleAccept} 
+                onDecline={handleDecline} 
+              />
             </div>
           </div>
         )}
