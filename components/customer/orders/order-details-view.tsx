@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Order, OrderStatus } from '@/types';
@@ -13,19 +13,39 @@ import { customerService } from '@/services/customer-service';
 import { format } from 'date-fns';
 import { 
   ArrowLeft, Star, Phone, MapPin, Calendar, Clock, CheckCircle,
-  ShoppingBag, Utensils, Truck, Package, Home
+  ShoppingBag, Utensils, Truck, Package, Home, RefreshCw, Loader2
 } from 'lucide-react';
 
 interface OrderDetailsViewProps {
   order: Order;
+  onRefresh?: () => Promise<void>;
+  isRefreshing?: boolean;
 }
 
-export default function OrderDetailsView({ order }: OrderDetailsViewProps) {
-  const [rating, setRating] = useState({ restaurant: 0, driver: 0 });
-  const [comment, setComment] = useState('');
+export default function OrderDetailsView({ 
+  order, 
+  onRefresh,
+  isRefreshing = false
+}: OrderDetailsViewProps) {
+  const [rating, setRating] = useState({ restaurant: 0, driver: 0 });  const [comment, setComment] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [previousStatus, setPreviousStatus] = useState<OrderStatus | null>(null);
   const router = useRouter();
   const { toast } = useToast();
+  
+  // Effect to track order status changes and show notifications
+  useEffect(() => {
+    if (previousStatus && previousStatus !== order.status) {
+      // Status has changed, show notification
+      toast({
+        title: 'Order Status Updated',
+        description: `Your order is now ${getStatusText(order.status)}`,
+      });
+    }
+    
+    // Update previous status
+    setPreviousStatus(order.status);
+  }, [order.status, previousStatus, toast]);
 
   // Format times
   const orderDate = format(new Date(order.createdAt), 'MMM d, yyyy');
@@ -35,15 +55,24 @@ export default function OrderDetailsView({ order }: OrderDetailsViewProps) {
   const isActiveOrder = ['placed', 'accepted', 'preparing', 'ready', 'pickedUp'].includes(order.status);
   const isDelivered = order.status === 'delivered';
 
+  // Handle manual refresh when refresh button is clicked
+  const handleRefresh = async () => {
+    if (onRefresh) {
+      await onRefresh();
+    }
+  };
+
   const handleSubmitRating = async () => {
     setIsSubmitting(true);
     try {
-      await customerService.rateOrder(
-        order.id,
-        rating.restaurant,
-        rating.driver,
-        comment
-      );
+      if (order) {
+        await customerService.rateOrder(
+          order.id,
+          rating.restaurant,
+          rating.driver,
+          comment
+        );
+      }
       
       toast({
         title: 'Thank you!',
@@ -72,16 +101,30 @@ export default function OrderDetailsView({ order }: OrderDetailsViewProps) {
         Back to Orders
       </Button>
       
-      <div className="grid grid-cols-1 gap-6">
-        {/* Order Status */}
+      <div className="grid grid-cols-1 gap-6">        {/* Order Status */}
         <Card>
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Order Status</CardTitle>
+            {isActiveOrder && (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={handleRefresh}
+                disabled={isRefreshing}
+                className="gap-1"
+              >
+                {isRefreshing 
+                  ? <Loader2 className="h-4 w-4 animate-spin" />
+                  : <RefreshCw className="h-4 w-4" />
+                }
+                {isRefreshing ? 'Updating...' : 'Refresh'}
+              </Button>
+            )}
           </CardHeader>
           <CardContent>
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 className="font-semibold text-lg">{order.restaurantName}</h2>
+                <h2 className="font-semibold text-lg">{order?.restaurantName}</h2>
                 <div className="text-sm text-gray-500 flex items-center mt-1">
                   <Calendar className="mr-1 h-4 w-4" />
                   <span>{orderDate}</span>

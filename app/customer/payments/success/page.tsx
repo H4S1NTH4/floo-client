@@ -89,16 +89,15 @@ export default function PaymentSuccessPage() {
           if (!order) {
             throw new Error('No response received from server');
           }
-          
-          if (!order._id && !order.orderNumber) {
-            console.warn("Missing order ID in response:", order);
+            if (!order.orderNumber) {
+            console.warn("Missing order number in response:", order);
             // Try to use a fallback ID if possible
             const fallbackId = orderData.orderNumber.toString();
             setOrderId(fallbackId);
           } else {
-            // Set the order ID for display
-            setOrderId(order._id || order.orderNumber);
-          }        } catch (apiError: any) {
+            // Set the order number for display - prefer using order number over _id
+            setOrderId(order.orderNumber.toString());
+          }} catch (apiError: any) {
           console.error("API error details:", apiError);
           throw new Error(`Failed to create order: ${apiError?.message || 'Unknown error'}`);
           
