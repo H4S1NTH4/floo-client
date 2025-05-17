@@ -300,6 +300,23 @@ class RestaurantService {
     menuItems.splice(index, 1);
   }
 
+  async registerRestaurant(data: {
+    name: string;
+    description: string;
+    address: string;
+    city: string;
+    state: string;
+    zipcode: string;
+    phone: string;
+    cuisineType: string;
+  }): Promise<{ success: boolean }> {
+    await delay(1500);
+
+    console.log("Registering restaurant with data:", data);
+
+    return { success: true };
+  }
+
   async updateRestaurantStatus(restaurantId: string, isOpen: boolean): Promise<Restaurant> {
     await delay(300);
     

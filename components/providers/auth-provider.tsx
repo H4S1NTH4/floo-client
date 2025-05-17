@@ -81,7 +81,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (newUser.role === 'customer') {
         router.push('/customer/home');
       } else if (newUser.role === 'restaurant') {
-        router.push('/restaurant/dashboard');
+        router.push('/restaurant/register');
       } else if (newUser.role === 'driver') {
         router.push('/driver/home');
       }
