@@ -66,7 +66,7 @@ export default function RestaurantLayout({
     const navLinks = [
         { name: "Dashboard", href: "/restaurant/dashboard", icon: <Home className="w-5 h-5" /> },
         { name: "Menu Management", href: "/restaurant/menu", icon: <Menu className="w-5 h-5" /> },
-        { name: "Orders", href: "/restaurant/orders", icon: <Package className="w-5 h-5" />, notifications: 7 },
+        { name: "Orders", href: "/restaurant/orders", icon: <Package className="w-5 h-5" />, notifications: 1 },
         { name: "Customers", href: "/restaurant/customers", icon: <Users className="w-5 h-5" /> },
         { name: "Finances", href: "/restaurant/finances", icon: <DollarSign className="w-5 h-5" /> },
         { name: "Settings", href: "/restaurant/settings", icon: <Settings className="w-5 h-5" /> },
