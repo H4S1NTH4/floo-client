@@ -63,8 +63,8 @@ export default function ProfilePage() {
               <div className="flex items-center gap-4">
                 <CreditCard className="h-6 w-6 text-gray-600" />
                 <div>
-                  <h3 className="font-semibold">Payment Methods</h3>
-                  <p className="text-sm text-gray-500">Manage payment options</p>
+                  <h3 className="font-semibold">Payment History</h3>
+                  <p className="text-sm text-gray-500">Manage payment history</p>
                 </div>
               </div>
             </CardContent>
