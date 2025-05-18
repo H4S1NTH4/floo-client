@@ -36,7 +36,7 @@ export default function RestaurantRegistrationPage() {
 
             // For demo purposes, we'll just log and redirect
             console.log("Restaurant registration data:", data);
-            router.push("/restaurant/dashboard");
+            router.push("/restaurant/starter-dashboard");
         } catch (error) {
             console.error("Registration failed:", error);
         } finally {
