@@ -31,8 +31,8 @@ export default function RestaurantRegistrationPage() {
             // Simulate API call delay
             await new Promise(resolve => setTimeout(resolve, 1500));
 
-            // In a real app, you would call your backend here:
-            // await restaurantService.registerRestaurant(data);
+            // Store registration data in localStorage
+            localStorage.setItem('restaurantRegistrationData', JSON.stringify(data));
 
             // For demo purposes, we'll just log and redirect
             console.log("Restaurant registration data:", data);
