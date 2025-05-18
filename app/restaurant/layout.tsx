@@ -39,11 +39,34 @@ export default function RestaurantLayout({
         }
     }, [user, router]);
 
+    // Check if current route is registration page
+    const isRegistrationPage = pathname === "/restaurant/register";
+
+    if (isRegistrationPage) {
+        return (
+            <div className="min-h-screen bg-[#F7FDF9]">
+                {/* Simple header for registration page */}
+                <header className="bg-white shadow-sm">
+                    <div className="container mx-auto px-4 py-4">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-2">
+                                <div className="w-8 h-8 bg-[#7ED957] rounded-md flex items-center justify-center">
+                                    <span className="text-white font-bold">BP</span>
+                                </div>
+                                <span className="font-bold">Floo</span>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                {children}
+            </div>
+        );
+    }
     // Navigation links for the sidebar
     const navLinks = [
         { name: "Dashboard", href: "/restaurant/dashboard", icon: <Home className="w-5 h-5" /> },
         { name: "Menu Management", href: "/restaurant/menu", icon: <Menu className="w-5 h-5" /> },
-        { name: "Orders", href: "/restaurant/orders", icon: <Package className="w-5 h-5" />, notifications: 7 },
+        { name: "Orders", href: "/restaurant/orders", icon: <Package className="w-5 h-5" />, notifications: 1 },
         { name: "Customers", href: "/restaurant/customers", icon: <Users className="w-5 h-5" /> },
         { name: "Finances", href: "/restaurant/finances", icon: <DollarSign className="w-5 h-5" /> },
         { name: "Settings", href: "/restaurant/settings", icon: <Settings className="w-5 h-5" /> },
