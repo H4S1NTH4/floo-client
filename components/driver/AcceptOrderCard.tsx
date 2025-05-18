@@ -6,7 +6,8 @@ import { MapPin, Clock, DollarSign } from 'lucide-react';
 import { Order } from '@/types/order';
 
 interface AcceptOrderCardProps {
-  order: Order;
+  order: any;
+
   onAccept: () => void;
   onDecline: () => void;
 }
@@ -17,27 +18,37 @@ export default function AcceptOrderCard({ order, onAccept, onDecline }: AcceptOr
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
-            Order #{order.orderNumber}
-            <span className="text-sm font-normal text-green-600">${order.totalAmount.toFixed(2)}</span>
+            Order #{order?.orderNumber || order?._id}
+            <span className="text-sm font-normal text-green-600">
+              ${order?.totalAmount?.toFixed(2) || '0.00'}
+            </span>
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <MapPin className="h-4 w-4" />
-              <span>{order.deliveryAddress}</span>
+              <span>{order?.distance ? `${order.distance} miles away` : 'Distance unknown'}</span>
             </div>
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <Clock className="h-4 w-4" />
-              <span>Estimated {new Date(order.deliveryTime).toLocaleTimeString()}</span>
+              <span>
+                {order?.expectedDeliveryTime ? `Estimated ${order.expectedDeliveryTime} mins` : 'Time unknown'}
+              </span>
             </div>
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <DollarSign className="h-4 w-4" />
-              <span>${order.deliveryFee.toFixed(2)} delivery fee</span>
+              <span>
+                {order?.deliveryFee
+                  ? `$${order.deliveryFee.toFixed(2)} delivery fee`
+                  : 'Delivery fee unknown'}
+              </span>
             </div>
-            <Button className="w-full mt-4" onClick={onAccept}>Accept Order</Button>
-            <Button 
-              className="w-full mt-4 bg-gray-200 text-red-600 hover:bg-red-100 hover:text-red-700 border border-red-200" 
+            <Button className="w-full mt-4" onClick={onAccept}>
+              Accept Order
+            </Button>
+            <Button
+              className="w-full mt-4 bg-gray-200 text-red-600 hover:bg-red-100 hover:text-red-700 border border-red-200"
               onClick={onDecline}
             >
               Decline Order
