@@ -515,9 +515,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{order_service_url}}/api/v1/order/status/READY",
+							"raw": "{{order_url}}/api/v1/order/status/READY",
 							"host": [
-								"{{order_service_url}}"
+								"{{order_url}}"
 							],
 							"path": [
 								"api",
@@ -555,6 +555,67 @@
 								"order",
 								"{{orderId}}",
 								"assign-driver"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get order by order number",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"orderNumber\": 1022,\r\n  \"customerId\": \"cust12176\",\r\n  \"restaurantId\": \"rest456\",\r\n  \"restaurantName\": \"foodcenter\",\r\n  \"orderItems\": [\r\n    {\r\n        \"foodItemId\": \"201\",\r\n        \"name\": \"Margherita Pizza\",\r\n        \"price\": 12.99,\r\n        \"quantity\": 1,\r\n        \"imageUrl\": \"https://images.pexels.com/photos/803290/pexels-photo-803290.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2\"\r\n      },\r\n      {\r\n        \"foodItemId\": \"203\",\r\n        \"name\": \"Garlic Breadsticks\",\r\n        \"price\": 5.99,\r\n        \"quantity\": 1,\r\n        \"imageUrl\": \"https://images.pexels.com/photos/1252534/pexels-photo-1252534.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2\"\r\n      }\r\n  ],\r\n  \"subTotal\": 2.3,\r\n  \"deliveryFee\": 10.67,\r\n  \"totalAmount\": 27.97,\r\n  \"orderTime\": 1713784857000,\r\n  \"deliveryAddress\": \"123 Main St, Colombo\",\r\n  \"restaurantAddress\": \"45 Food Ave, Colombo\",\r\n  \"deliveryTime\": 1713788457000,\r\n  \"orderStatus\": \"PENDING\",\r\n  \"paymentId\": \"pay789\",\r\n  \"userId\": \"user001\"\r\n\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{order_service_url}}/api/v1/order/number/4215",
+							"host": [
+								"{{order_service_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"number",
+								"4215"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get order by driver id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{order_service_url}}/api/v1/order/driver/{{driverId}}",
+							"host": [
+								"{{order_service_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"driver",
+								"{{driverId}}"
 							]
 						}
 					},
@@ -995,10 +1056,60 @@
 			"name": "Payment Service",
 			"item": [
 				{
-					"name": "New Request",
+					"name": "checkout",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\":400,\n    \"quantity\":20,\n    \"name\":\"zzz\",\n    \"currency\":\"LKR\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{payment_url}}api/v1/payment/strip/checkout",
+							"host": [
+								"{{payment_url}}api"
+							],
+							"path": [
+								"v1",
+								"payment",
+								"strip",
+								"checkout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getallpayment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\":400,\n    \"quantity\":20,\n    \"name\":\"zzz\",\n    \"currency\":\"LKR\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{payment_url}}api/v1/payment/strip/checkout",
+							"host": [
+								"{{payment_url}}api"
+							],
+							"path": [
+								"v1",
+								"payment",
+								"strip",
+								"checkout"
+							]
+						}
 					},
 					"response": []
 				}
@@ -1009,10 +1120,469 @@
 			"item": []
 		},
 		{
-			"name": "New Request",
+			"name": "create restaurant",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Burger Barn\",\r\n    \"description\": \"Gourmet burgers with fresh ingredients\",\r\n    \"address\": {\r\n        \"address\": \"456 Oak Ave\",\r\n        \"city\": \"Chicago\",\r\n        \"state\": \"IL\",\r\n        \"zipcode\": 60601\r\n    },\r\n    \"contactInfo\": [5551234567],\r\n    \"rating\": 4.2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:60915/restaurant-service/api/v1/restaurant",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "60915",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update my restaurant",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"lucky food\",\r\n    \"description\": \"Gourmet burgers with fresh ingredients\",\r\n    \"address\": {\r\n        \"address\": \"456 Oak Ave\",\r\n        \"city\": \"Chicago\",\r\n        \"state\": \"IL\",\r\n        \"zipcode\": 60601\r\n    },\r\n    \"contactInfo\": [5551234567],\r\n    \"rating\": 4.2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:60915/restaurant-service/api/v1/restaurant/my/68280763db4c5c63cbb551fd",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "60915",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant",
+						"my",
+						"68280763db4c5c63cbb551fd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin view all restaurants",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Burger Barn\",\r\n    \"description\": \"Gourmet burgers with fresh ingredients\",\r\n    \"address\": {\r\n        \"address\": \"456 Oak Ave\",\r\n        \"city\": \"Chicago\",\r\n        \"state\": \"IL\",\r\n        \"zipcode\": 60601\r\n    },\r\n    \"contactInfo\": [5551234567],\r\n    \"rating\": 4.2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:60915/restaurant-service/api/v1/restaurant/admin/all",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "60915",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant",
+						"admin",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get my restaurant",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Burger Barn\",\r\n    \"description\": \"Gourmet burgers with fresh ingredients\",\r\n    \"address\": {\r\n        \"address\": \"456 Oak Ave\",\r\n        \"city\": \"Chicago\",\r\n        \"state\": \"IL\",\r\n        \"zipcode\": 60601\r\n    },\r\n    \"contactInfo\": [5551234567],\r\n    \"rating\": 4.2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:60915/restaurant-service/api/v1/restaurant/my/680b7d388ddb6920174292cb",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "60915",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant",
+						"my",
+						"680b7d388ddb6920174292cb"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete my restaurant",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Burger Barn\",\r\n    \"description\": \"Gourmet burgers with fresh ingredients\",\r\n    \"address\": {\r\n        \"address\": \"456 Oak Ave\",\r\n        \"city\": \"Chicago\",\r\n        \"state\": \"IL\",\r\n        \"zipcode\": 60601\r\n    },\r\n    \"contactInfo\": [5551234567],\r\n    \"rating\": 4.2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:60915/restaurant-service/api/v1/restaurant/my/68280718db4c5c63cbb551fc",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "60915",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant",
+						"my",
+						"68280718db4c5c63cbb551fc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin get pending restaurants",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:60915/restaurant-service/api/v1/restaurant/admin/pending",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "60915",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant",
+						"admin",
+						"pending"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin verifies restaurant",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:60915/restaurant-service/api/v1/restaurant/admin/verify/68280763db4c5c63cbb551fd?isApproved=true",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "60915",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant",
+						"admin",
+						"verify",
+						"68280763db4c5c63cbb551fd"
+					],
+					"query": [
+						{
+							"key": "isApproved",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update restaurant availability",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Burger Barn\",\r\n    \"description\": \"Gourmet burgers with fresh ingredients\",\r\n    \"address\": {\r\n        \"address\": \"456 Oak Ave\",\r\n        \"city\": \"Chicago\",\r\n        \"state\": \"IL\",\r\n        \"zipcode\": 60601\r\n    },\r\n    \"contactInfo\": [5551234567],\r\n    \"rating\": 4.2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:60915/restaurant-service/api/v1/restaurant/68280763db4c5c63cbb551fd/status?status=CLOSED",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "60915",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant",
+						"68280763db4c5c63cbb551fd",
+						"status"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "CLOSED"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get daily income",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Burger Barn\",\r\n    \"description\": \"Gourmet burgers with fresh ingredients\",\r\n    \"address\": {\r\n        \"address\": \"456 Oak Ave\",\r\n        \"city\": \"Chicago\",\r\n        \"state\": \"IL\",\r\n        \"zipcode\": 60601\r\n    },\r\n    \"contactInfo\": [5551234567],\r\n    \"rating\": 4.2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:60915/restaurant-service/api/v1/restaurant/my/68280763db4c5c63cbb551fd/income/daily?date=2024-05-20",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "60915",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant",
+						"my",
+						"68280763db4c5c63cbb551fd",
+						"income",
+						"daily"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "2024-05-20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get total income",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Burger Barn\",\r\n    \"description\": \"Gourmet burgers with fresh ingredients\",\r\n    \"address\": {\r\n        \"address\": \"456 Oak Ave\",\r\n        \"city\": \"Chicago\",\r\n        \"state\": \"IL\",\r\n        \"zipcode\": 60601\r\n    },\r\n    \"contactInfo\": [5551234567],\r\n    \"rating\": 4.2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:60915/restaurant-service/api/v1/restaurant/my/68280763db4c5c63cbb551fd/income/total",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "60915",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant",
+						"my",
+						"68280763db4c5c63cbb551fd",
+						"income",
+						"total"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "customer feedback submit",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"orderId\": \"order123\",\r\n    \"userId\": \"user456\",\r\n    \"comment\": \"Best sushi I've ever had!\",\r\n    \"rating\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:64321/restaurant-service/api/v1/restaurant/my/68280763db4c5c63cbb551fd/feedback",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "64321",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"restaurant",
+						"my",
+						"68280763db4c5c63cbb551fd",
+						"feedback"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create menu",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Margherita Pizza\",\r\n    \"description\": \"Classic pizza with tomato and mozzarella\",\r\n    \"price\": 12.99,\r\n    \"quantity\": 50,\r\n    \"restaurantId\": \"rest123\",\r\n    \"category\": \"Pizza\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:64321/restaurant-service/api/v1/menuItem",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "64321",
+					"path": [
+						"restaurant-service",
+						"api",
+						"v1",
+						"menuItem"
+					]
+				}
 			},
 			"response": []
 		}
@@ -1082,6 +1652,11 @@
 		{
 			"value": "",
 			"type": "string"
+		},
+		{
+			"key": "driverId",
+			"value": "",
+			"type": "default"
 		}
 	]
 }
