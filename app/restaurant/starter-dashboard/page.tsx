@@ -1,4 +1,3 @@
-// app/restaurant/starter-dashboard/page.tsx
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -10,28 +9,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import Image from "next/image";
-import {
-    Home,
-    Utensils,
-    Package,
-    Clock,
-    Settings,
-    ChefHat,
-    Users,
-    TrendingUp,
-    DollarSign,
-    Star,
-    PieChart,
-    Calendar,
-    ShoppingBag,
-    Bell,
-    BarChart3,
-    ChevronRight
-} from "lucide-react";
+import { Home, Utensils, Package, Clock, Settings, ChefHat, Users, TrendingUp, DollarSign, Star, PieChart, Calendar, ShoppingBag, Bell, BarChart3, ChevronRight } from "lucide-react";
+import { useAuth } from "@/components/providers/auth-provider";
 
 export default function RestaurantStarterDashboardPage() {
     const [loading, setLoading] = useState(true);
     const [currentDate, setCurrentDate] = useState("");
+    const [restaurantData, setRestaurantData] = useState<any>(null);
+    const { user } = useAuth();
 
     useEffect(() => {
         // Set current date
@@ -42,7 +27,23 @@ export default function RestaurantStarterDashboardPage() {
             year: 'numeric'
         };
         setCurrentDate(today.toLocaleDateString('en-US', options));
-        setLoading(false);
+
+        // Fetch restaurant data (simulated)
+        const fetchData = async () => {
+            try {
+                // Simulate loading from localStorage (where we'll store registration data)
+                const data = localStorage.getItem('restaurantRegistrationData');
+                if (data) {
+                    setRestaurantData(JSON.parse(data));
+                }
+            } catch (error) {
+                console.error("Error fetching restaurant data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
     }, []);
 
     if (loading) {
@@ -56,35 +57,16 @@ export default function RestaurantStarterDashboardPage() {
         );
     }
 
-    // Starter dashboard data
-    const dashboardData = {
-        totalOrders: 0,
-        totalRevenue: 0,
-        pendingOrders: 0,
-        popularity: 0,
-        ordersToday: 0,
-        revenueToday: 0,
-        weeklyRevenue: [
-            { day: 'Mon', amount: 0 },
-            { day: 'Tue', amount: 0 },
-            { day: 'Wed', amount: 0 },
-            { day: 'Thu', amount: 0 },
-            { day: 'Fri', amount: 0 },
-            { day: 'Sat', amount: 0 },
-            { day: 'Sun', amount: 0 }
-        ],
-        newCustomers: 0,
-        repeatCustomers: 0,
-        popularItems: [],
-        recentOrders: []
-    };
-
     return (
         <div className="container mx-auto p-4 max-w-7xl">
             <div className="flex justify-between items-center mb-8">
                 <div>
-                    <h1 className="text-3xl font-bold">Welcome to Your New Restaurant</h1>
-                    <p className="text-gray-500">Let's get started! Here's how to set up your restaurant.</p>
+                    <h1 className="text-3xl font-bold">
+                        Welcome to {restaurantData?.name || "Your New Restaurant"}
+                    </h1>
+                    <p className="text-gray-500">
+                        {restaurantData ? "Let's get your restaurant ready for customers!" : "Let's get started! Here's how to set up your restaurant."}
+                    </p>
                 </div>
                 <div className="flex gap-2">
                     <Button variant="outline" size="sm">
@@ -93,6 +75,34 @@ export default function RestaurantStarterDashboardPage() {
                     </Button>
                 </div>
             </div>
+
+            {/* Show restaurant details if registered */}
+            {restaurantData && (
+                <Card className="mb-8">
+                    <CardHeader>
+                        <CardTitle>Your Restaurant Details</CardTitle>
+                        <CardDescription>These are the details you provided during registration</CardDescription>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 className="font-medium">Restaurant Name</h3>
+                            <p className="text-sm text-gray-500">{restaurantData.name}</p>
+                        </div>
+                        <div>
+                            <h3 className="font-medium">Cuisine Type</h3>
+                            <p className="text-sm text-gray-500">{restaurantData.cuisineType}</p>
+                        </div>
+                        <div>
+                            <h3 className="font-medium">Address</h3>
+                            <p className="text-sm text-gray-500">{restaurantData.address}, {restaurantData.city}, {restaurantData.state} {restaurantData.zipcode}</p>
+                        </div>
+                        <div>
+                            <h3 className="font-medium">Phone Number</h3>
+                            <p className="text-sm text-gray-500">{restaurantData.phone}</p>
+                        </div>
+                    </CardContent>
+                </Card>
+            )}
 
             {/* Getting Started Guide */}
             <Card className="mb-8">
@@ -110,6 +120,7 @@ export default function RestaurantStarterDashboardPage() {
                             <p className="text-sm text-gray-500">Add your menu items to start accepting orders</p>
                         </div>
                     </div>
+
                     <div className="flex items-start gap-4">
                         <div className="bg-[#F0FBF0] text-[#7ED957] rounded-full p-2">
                             <Settings className="h-5 w-5" />
@@ -119,6 +130,7 @@ export default function RestaurantStarterDashboardPage() {
                             <p className="text-sm text-gray-500">Set your hours, delivery options, and more</p>
                         </div>
                     </div>
+
                     <div className="flex items-start gap-4">
                         <div className="bg-[#F0FBF0] text-[#7ED957] rounded-full p-2">
                             <Users className="h-5 w-5" />
@@ -131,65 +143,13 @@ export default function RestaurantStarterDashboardPage() {
                 </CardContent>
             </Card>
 
-            {/* Empty State Metrics */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                <Card className="bg-gradient-to-br from-[#e7f8e8] to-white">
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium text-gray-500">Today's Revenue</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">$0.00</div>
-                        <p className="text-xs text-gray-500 mt-1">No orders yet</p>
-                    </CardContent>
-                </Card>
-
-                <Card>
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium text-gray-500">Today's Orders</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">0</div>
-                        <p className="text-xs text-gray-500 mt-1">No orders yet</p>
-                    </CardContent>
-                </Card>
-
-                <Card>
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium text-gray-500">Pending Orders</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">0</div>
-                        <p className="text-xs text-gray-500 mt-1">No pending orders</p>
-                    </CardContent>
-                </Card>
-
-                <Card>
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium text-gray-500">Customer Rating</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="flex items-center">
-                            <div className="text-2xl font-bold mr-2">0.0</div>
-                            <div className="flex text-gray-300">
-                                <Star className="h-4 w-4" />
-                                <Star className="h-4 w-4" />
-                                <Star className="h-4 w-4" />
-                                <Star className="h-4 w-4" />
-                                <Star className="h-4 w-4" />
-                            </div>
-                        </div>
-                        <p className="text-xs text-gray-500 mt-1">No ratings yet</p>
-                    </CardContent>
-                </Card>
-            </div>
-
             {/* Quick Actions */}
             <Card>
                 <CardHeader>
                     <CardTitle>Quick Actions</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    <Link href="/restaurant/menu">
+                    <Link href="/restaurant/menu/add-first-item">
                         <Button className="w-full flex items-center justify-between" variant="outline">
                             <div className="flex items-center">
                                 <Utensils className="h-4 w-4 mr-2" />
@@ -217,14 +177,16 @@ export default function RestaurantStarterDashboardPage() {
                         <ChevronRight className="h-4 w-4" />
                     </Button>
 
-                    <Button className="w-full flex items-center justify-between mt-2" variant="default"
-                            style={{ backgroundColor: '#7ED957', color: '#fff' }}>
-                        <div className="flex items-center">
-                            <ChefHat className="h-4 w-4 mr-2" />
-                            Add Your First Menu Item
-                        </div>
-                        <ChevronRight className="h-4 w-4" />
-                    </Button>
+                    <Link href="/restaurant/menu/add-first-item">
+                        <Button className="w-full flex items-center justify-between mt-2" variant="default"
+                                style={{ backgroundColor: '#7ED957', color: '#fff' }}>
+                            <div className="flex items-center">
+                                <ChefHat className="h-4 w-4 mr-2" />
+                                Add Your First Menu Item
+                            </div>
+                            <ChevronRight className="h-4 w-4" />
+                        </Button>
+                    </Link>
                 </CardContent>
             </Card>
         </div>
