@@ -10,6 +10,7 @@ export type OrderItem = {
 
 export type Order = {
     _id?: string;
+    id?: string; // API returns orders with 'id' field
     orderNumber: number;
     customerId: string;
     restaurantId: string;
