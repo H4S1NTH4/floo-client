@@ -154,6 +154,8 @@ function DriverOrderCard({
 }) {
   // Format the order date
   const orderDate = formatDistanceToNow(new Date(order.orderTime), { addSuffix: true });
+  const router = useRouter();
+
   
   // Get status badge color
   const getStatusColor = () => {
@@ -175,7 +177,15 @@ function DriverOrderCard({
     }
   };
 
+  const handleOrderPage =() =>{
+    router.push('/driver/orders');
+  }
+  const handleHomePage =() =>{
+    router.push('/driver/home');
+  }
+
   return (
+    <div>
     <Card className="overflow-hidden">
       <CardContent className="p-0">
         <div className="p-4 border-b">
@@ -244,6 +254,12 @@ function DriverOrderCard({
         </div>
       </CardContent>
     </Card>
+    <footer className="fixed bottom-0 w-full bg-white border-t shadow-inner flex justify-around items-center p-4">
+        <button className="text-gray-600 hover:text-black" onClick={handleHomePage}> 🏠Home</button>
+        <button className="text-gray-600 hover:text-black">🗺️ Map</button>
+        <button className="text-gray-600 hover:text-black" onClick={handleOrderPage}>📦 Orders</button>
+      </footer>
+    </div>
   );
 }
 

@@ -40,10 +40,11 @@ export default function MapComponent({ start, destination }: MapComponentProps) 
     <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''}>
       <div style={{ width: '100%', height: '400px' }}>
         <Map
-          center={center}
+          //center={center}
           style={{ width: '100%', height: '100%' }}
           disableDefaultUI={false}
           zoomControl={true}
+          zoom={10}
           gestureHandling="greedy"
           mapTypeId="roadmap"
           //zoom={14}
