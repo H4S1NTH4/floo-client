@@ -63,7 +63,7 @@ export default function CartPage() {
     const cartItem = items[0]; // Take the first item for now
     // Build a proper payment payload for all cart items
     const paymentPayload = {
-      name: `Order from ${restaurantId}`,
+      name: cartItem.name,
       amount: total, // Use total amount including delivery fee
       quantity: 1,
       currency: 'USD',
