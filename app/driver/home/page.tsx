@@ -83,6 +83,12 @@ export default function Home() {
     console.log('Order declined');
     setOrder(null);
   };
+  const handleOrderPage =() =>{
+    router.push('/driver/orders');
+  }
+  const handleHomePage =() =>{
+    router.push('/driver/home');
+  }
 
   return (
     <div >
@@ -129,9 +135,9 @@ export default function Home() {
       </main>
 
       <footer className="fixed bottom-0 w-full bg-white border-t shadow-inner flex justify-around items-center p-4">
-        <button className="text-gray-600 hover:text-black">🏠 Home</button>
+        <button className="text-gray-600 hover:text-black" onClick={handleHomePage}> 🏠Home</button>
         <button className="text-gray-600 hover:text-black">🗺️ Map</button>
-        <button className="text-gray-600 hover:text-black">⚙️ Settings</button>
+        <button className="text-gray-600 hover:text-black" onClick={handleOrderPage}>📦 Orders</button>
       </footer>
     </div>
   );
